@@ -50,7 +50,7 @@ function Galaxy:populate(config, world)
                 planetMaxRadius = config.planetMaxRadius, 
                 audio = { 
                     song = song,
-                    layer = self:getLayer(songs.tags[key])
+                    layer = self:getDrums(songs.tags[key])
                 },
                 seed = math.random(0, 10000)
             },
@@ -94,11 +94,14 @@ function Galaxy:getSong()
         -- get a random song
         key = songKeys:next()
         local song = songs.tags[key]
+        local bpm = song.METRICS.BPM
+
+        print(key)
 
         -- if song has a matching tag, add it to table
         for cat,tag in pairs(self.description.tags) do
             if(H.tableHas(song[cat], tag)) then
-                local sourceLoc = songs.path .. "no_vocals/" .. key .. songs.ext
+                local sourceLoc = songs.path .. "vocals/" .. bpm .. "/" .. key .. songs.ext
                 match = love.audio.newSource(sourceLoc, "stream")
             end
         end
@@ -109,42 +112,18 @@ function Galaxy:getSong()
     return match, key
 end
 
-function Galaxy:getLayer(control)
-    local match = nil
-    local pitch = 1
-    local tries = 0
+function Galaxy:getDrums(control)
+    local bpm = control.METRICS.BPM
+    local dir = songs.path .. "drums/" .. bpm 
+    local files = love.filesystem.getDirectoryItems(dir)
 
-    while not match and tries < #songs.tags do
-        local key = songKeys:next()
-        local song = songs.tags[key]
+    local index = math.ceil(math.random(#files))
+    local drums = files[index]
+    -- print(dir, #files, index, drums)
 
-        print(song.METRICS, control.METRICS)
-        if song.METRICS.BPM == control.METRICS.BPM then
-            local sourceLoc = songs.path .. "vocals/" .. key .. songs.ext
-            match = love.audio.newSource(sourceLoc, "stream")
-            print(song.METRICS.BPM)
-        end
+    print("Drums: " .. drums)
 
-        print("Layer: " .. key)
-
-        tries = tries + 1
-    end
-
-    if not match then
-        -- force bpm 
-        local key = songKeys:next()
-        local song = songs.tags[key]
-
-        print("Layer: " .. key)
-
-        -- target/current BPM
-        pitch = tonumber(control.METRICS.BPM) / tonumber(song.METRICS.BPM)
-
-        local sourceLoc = songs.path .. "vocals/" .. key .. songs.ext
-        match = love.audio.newSource(sourceLoc, "stream")
-    end
-
-    return { song = match, pitch = pitch }
+    return { song = love.audio.newSource(dir .. "/" .. drums, "stream"), pitch = 1 }
 end
 
 return Galaxy

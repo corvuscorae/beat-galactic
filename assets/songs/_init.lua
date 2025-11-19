@@ -1,4 +1,4 @@
-local path = "assets/songs/vocals/"
+local path = "assets/songs/_rename/"
 local files = love.filesystem.getDirectoryItems(path)
 
 local i = {}
@@ -13,6 +13,9 @@ local function formatName(filename, ext)
     result = result:gsub("_+", "_") -- consecutive underscores
     result = result:gsub("^_+", "") -- leading underscores
     result = result:gsub("_+$", "") -- trailing underscores
+
+    result = result:gsub("%d+_", "") 
+    result = result:gsub("looperman_l_", "") 
 
     -- put ext back
     result = result .. ext
