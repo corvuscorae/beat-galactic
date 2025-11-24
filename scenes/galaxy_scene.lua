@@ -19,7 +19,7 @@ function gal:load(args)
     if not galaxy then
         local sysConf = {
             systems = 5,
-            planets = 7,  
+            planets = 6,  
             planetMinRadius = 5,
             planetMaxRadius = 25
         }
@@ -27,7 +27,7 @@ function gal:load(args)
         galaxy = Galaxy:new(world, sysConf, "TEMP_INDEX", 30, 100, mask)
     end
 
-    print(galaxy.description.filled)
+    -- print(galaxy.description.filled)
 
     if not sys_select then sys_select = 1 end
 end

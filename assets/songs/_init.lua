@@ -1,4 +1,4 @@
-local path = "assets/songs/drums/169/"
+local path = "assets/songs/_rename/"
 local files = love.filesystem.getDirectoryItems(path)
 
 local i = {}

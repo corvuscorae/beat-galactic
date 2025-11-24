@@ -43,9 +43,6 @@ function SolarSystem:generateSystem(numPlanets)
     self:addBody(0, 0, self.maxRadius*m, true)
 
     self:addBodies(numPlanets, 2)
-
-    -- randomly give one planet a layer
-    self.system[math.random(2, #self.system)].layer = self.audio.layer
 end
 
 function SolarSystem:addBody(angle, dist, radius, isCore, state)
@@ -87,7 +84,10 @@ function SolarSystem:addBody(angle, dist, radius, isCore, state)
     body.fixture:setUserData({ id=self.bodyType, index=#self.system })
 
     if body.core then
-        body.song = self.audio.song
+        body.vocals = self.audio.vocals.song
+    else
+        -- body.layer
+        body.layer = self.audio.layer[#self.system - 1]
     end
 
     return body
@@ -112,10 +112,10 @@ function SolarSystem:activateBody(body, overrideCore)
     else
         if body.core then
             -- Play song
-            if not body.song:isPlaying() then
-                body.song:setVolume(0.7)
-                body.song:setLooping(true)
-                love.audio.play(body.song)
+            if not body.vocals:isPlaying() then
+                body.vocals:setVolume(0.7)
+                body.vocals:setLooping(true)
+                love.audio.play(body.vocals)
             end
         elseif body.layer then
             if not body.layer.song:isPlaying() then

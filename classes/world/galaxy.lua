@@ -41,7 +41,7 @@ function Galaxy:populate(config, world)
     local num = config.systems
 
     for i = 1, num do
-        local song, key = self:getSong()
+        local vocals, key = self:getVocals()
         local system = {
             config = {
                 index = i,
@@ -49,8 +49,8 @@ function Galaxy:populate(config, world)
                 planetMinRadius = config.planetMinRadius, 
                 planetMaxRadius = config.planetMaxRadius, 
                 audio = { 
-                    song = song,
-                    layer = self:getDrums(songs.tags[key])
+                    vocals = vocals,
+                    layer = self:getLayers(songs.tags[key])
                 },
                 seed = math.random(0, 10000)
             },
@@ -86,44 +86,52 @@ function Galaxy:addBody(angle, dist, radius)
     table.insert(self.system, body)
 end
 
-function Galaxy:getSong()
+function Galaxy:getVocals()
     local match = nil
     local key = nil
 
-    while not match do
+    -- while not match do
         -- get a random song
         key = songKeys:next()
         local song = songs.tags[key]
         local bpm = song.METRICS.BPM
 
-        print(key)
-
         -- if song has a matching tag, add it to table
-        for cat,tag in pairs(self.description.tags) do
-            if(H.tableHas(song[cat], tag)) then
+        -- for cat,tag in pairs(self.description.tags) do
+            -- if(H.tableHas(song[cat], tag)) then
                 local sourceLoc = songs.path .. "vocals/" .. bpm .. "/" .. key .. songs.ext
                 match = love.audio.newSource(sourceLoc, "stream")
-            end
-        end
-    end
+            -- end
+        -- end
+    -- end
 
     print("Base: " .. key)
 
-    return match, key
+    return { song = match, pitch = 1 }, key
 end
 
-function Galaxy:getDrums(control)
-    local bpm = control.METRICS.BPM
-    local dir = songs.path .. "drums/" .. bpm 
-    local files = love.filesystem.getDirectoryItems(dir)
+function Galaxy:getLayers(control)
+    local layers = {}
+    -- TODO: will need to make these randomly (or with grammars)
+    -- num planets should be the same as the number of layers we wants here
+    -- prevent repeats?
+    local TEMP_CHOOSER = {"drums", "main", "padding", "padding", "texture"}
 
-    local index = math.ceil(math.random(#files))
-    local drums = files[index]
-    -- print(dir, #files, index, drums)
+    for _,layerName in pairs(TEMP_CHOOSER) do
+        local bpm = control.METRICS.BPM
+        local dir = songs.path .. layerName .. "/" .. bpm 
+        local files = love.filesystem.getDirectoryItems(dir)
 
-    print("Drums: " .. drums)
+        local index = math.ceil(math.random(#files))
+        local layer = files[index]
+        -- print(dir, #files, index, drums)
 
-    return { song = love.audio.newSource(dir .. "/" .. drums, "stream"), pitch = 1 }
+        print("> " .. layerName .. ": " .. layer)
+
+        table.insert(layers, { song = love.audio.newSource(dir .. "/" .. layer, "stream"), pitch = 1 })
+    end
+
+    return layers
 end
 
 return Galaxy
