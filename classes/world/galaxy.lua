@@ -6,8 +6,8 @@ local width, height = Settings.width, Settings.height
 local H = require("utils.helpers")
 
 local ShuffleBag = require("classes.shufflebag")
-local songs = require("assets.songs._tags")
-local songKeys = ShuffleBag.new(H.getKeys(songs.tags))
+local loops = require("assets.songs._tags")
+local _layers = ShuffleBag.new(loops.paths.layers)
 
 local Galaxy = {}
 Galaxy.__index = Galaxy
@@ -20,7 +20,7 @@ function Galaxy:new(world, config, index, minRadius, maxRadius, mask)
     instance.index = index
 
     -- description
-    instance.description = Description:new()
+    instance.description = ""--Description:new()
 
     -- generate a collection of solar systems
     instance.solarSystems = instance:populate(config, world)
@@ -41,7 +41,12 @@ function Galaxy:populate(config, world)
     local num = config.systems
 
     for i = 1, num do
-        local vocals, key = self:getVocals()
+        local main = self:getLayer("main", {getMetrics = true})
+        local layers = self:getLayers(
+            {"drums", "texture", "padding", "padding", "texture"}, 
+            main.metrics
+        )
+
         local system = {
             config = {
                 index = i,
@@ -49,8 +54,8 @@ function Galaxy:populate(config, world)
                 planetMinRadius = config.planetMinRadius, 
                 planetMaxRadius = config.planetMaxRadius, 
                 audio = { 
-                    vocals = vocals,
-                    layer = self:getLayers(songs.tags[key])
+                    main = main.path,
+                    layers = ShuffleBag.new(layers)
                 },
                 seed = math.random(0, 10000)
             },
@@ -86,49 +91,48 @@ function Galaxy:addBody(angle, dist, radius)
     table.insert(self.system, body)
 end
 
-function Galaxy:getVocals()
-    local match = nil
-    local key = nil
+function Galaxy:getLayer(type, conf)
+    print(type)
 
-    -- while not match do
-        -- get a random song
-        key = songKeys:next()
-        local song = songs.tags[key]
-        local bpm = song.METRICS.BPM
+    local bpm = conf.bpm
+    if not bpm then
+        local bpms = H.getKeys(loops.tags[type])
+        bpm = bpms[math.random(#bpms)]
+    end
+    print(bpm)
+    
+    local key = (type == "drums") and "x" or conf.key
+    if not key then
+        local keys = H.getKeys(loops.tags[type][bpm])
+        key = keys[math.random(#keys)]
+    end
+    print(key)
 
-        -- if song has a matching tag, add it to table
-        -- for cat,tag in pairs(self.description.tags) do
-            -- if(H.tableHas(song[cat], tag)) then
-                local sourceLoc = songs.path .. "vocals/" .. bpm .. "/" .. key .. songs.ext
-                match = love.audio.newSource(sourceLoc, "stream")
-            -- end
-        -- end
-    -- end
+    local layers = nil
+    local layer = nil
+    local path = loops.applepath .. type .. "/" .. bpm:gsub("_", "") .. "/" .. key .. "/"
+    if loops.tags[type][bpm][key] then
+        layers = H.getKeys(loops.tags[type][bpm][key])
+        layer = layers[math.random(#layers)]
+        path = path .. layer .. ".mp3"
+    else
+        print("WARNING! No loops in {" .. path .. "}" )
+        path = nil
+    end
 
-    print("Base: " .. key)
+    local result = { path = path }
+    if conf.getMetrics == true then result.metrics = { bpm = bpm, key = key } end
 
-    return { song = match, pitch = 1 }, key
+    return result
 end
 
-function Galaxy:getLayers(control)
+function Galaxy:getLayers(types, metrics)
     local layers = {}
-    -- TODO: will need to make these randomly (or with grammars)
-    -- num planets should be the same as the number of layers we wants here
-    -- prevent repeats?
-    local TEMP_CHOOSER = {"drums", "main", "padding", "padding", "texture"}
 
-    for _,layerName in pairs(TEMP_CHOOSER) do
-        local bpm = control.METRICS.BPM
-        local dir = songs.path .. layerName .. "/" .. bpm 
-        local files = love.filesystem.getDirectoryItems(dir)
-
-        local index = math.ceil(math.random(#files))
-        local layer = files[index]
-        -- print(dir, #files, index, drums)
-
-        print("> " .. layerName .. ": " .. layer)
-
-        table.insert(layers, { song = love.audio.newSource(dir .. "/" .. layer, "stream"), pitch = 1 })
+    for _,type in pairs(types) do
+        print(metrics.bpm, metrics.key)
+        local loop = self:getLayer(type, metrics)
+        table.insert(layers, loop.path)
     end
 
     return layers

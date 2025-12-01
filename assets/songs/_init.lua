@@ -1,5 +1,5 @@
-local path = "assets/songs/_rename/"
-local files = love.filesystem.getDirectoryItems(path)
+local H = require("utils.helpers")
+local path = "assets/songs/"
 
 local i = {}
 
@@ -14,9 +14,6 @@ local function formatName(filename, ext)
     result = result:gsub("^_+", "") -- leading underscores
     result = result:gsub("_+$", "") -- trailing underscores
 
-    result = result:gsub("%d+_", "") 
-    result = result:gsub("looperman_l_", "") 
-
     -- put ext back
     result = result .. ext
 
@@ -25,25 +22,66 @@ end
 
 -- this will rename all files so they don't have spaces, 
 --  and will also print filenames (without ext) (so we can copy/paste them to the tags object)
-function i.initFiles(ext, log)
-    for _, origName in ipairs(files) do
-        local info = love.filesystem.getInfo(path .. origName)
-        if info and info.type == "file" and origName ~= "_tags.lua" and origName ~= "_init.lua" then
-            local format = formatName(origName, ext)
-            if #format > 0 then
-                -- remove spaces and rename file
-                -- https://www.gammon.com.au/scripts/doc.php?lua=os.rename
-                os.rename(path .. origName, path .. format)
+function i.initFiles(path, subfolders, ext, log)
+    local paths = {
+        mains = {},
+        layers = {}
+    }
 
-                local _,__,param = format:find("(.+)%" .. ext .. "$")
-                if log then print(param .. " = {},") end
-            else
-                local _,__,param = format:find("(.+)%" .. ext .. "$")
-                if log then print(param .. " = {},") end
+    for _,sub in ipairs(subfolders) do     -- types (i.e. "drums", "padding", etc)
+        -- get bpm subfolders
+        local bpm = love.filesystem.getDirectoryItems(path .. sub .. "/")
+
+        if log then print(sub .. " = {") end    
+
+        for _, b in ipairs(bpm) do      -- bpm values in type subfolder
+            local keys = love.filesystem.getDirectoryItems(path .. sub .. "/" .. b .. "/")
+
+            if log then print("_" .. b .. " = {") end
+
+            for _, k in ipairs(keys) do      -- key values in bpm subfolder
+                -- get song files
+                local fullpath = path .. sub .. "/" .. b .. "/" .. k .. "/" -- path to the songs in type/bpm/key subfolders
+                local songs = love.filesystem.getDirectoryItems(fullpath)
+
+                if log then print(k .. " = {") end
+
+                for _,song in ipairs(songs) do
+                    local info = love.filesystem.getInfo(fullpath .. song)
+
+                    if info and info.type == "file" then
+                        local format = formatName(song, ext)
+                        
+                        local dest = (sub == "main") and "mains" or "layers"
+                        table.insert(paths[dest], fullpath .. format)
+
+                        if #format > 0 then
+                            -- remove spaces and rename file
+                            -- https://www.gammon.com.au/scripts/doc.php?lua=os.rename
+                            os.rename(fullpath .. song, fullpath .. format)
+
+                            local _,__,param = format:find("(.+)%" .. ext .. "$")
+                            if log then print(param .. " = {},") end
+                        else
+                            local _,__,param = format:find("(.+)%" .. ext .. "$")
+                            if log then print(param .. " = {},") end
+                        end
+                    end
+                end
+
+                if log then print("},") end
+
             end
+    
+            if log then print("},") end
 
         end
+
+        if log then print("},") end
+
     end
+
+    return paths
 end
 
 return i

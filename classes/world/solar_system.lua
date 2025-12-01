@@ -84,10 +84,16 @@ function SolarSystem:addBody(angle, dist, radius, isCore, state)
     body.fixture:setUserData({ id=self.bodyType, index=#self.system })
 
     if body.core then
-        body.vocals = self.audio.vocals.song
+        body.main = {}
+        body.main.path = self.audio.main
+        body.main.loop = love.audio.newSource(self.audio.main, "stream")
     else
-        -- body.layer
-        body.layer = self.audio.layer[#self.system - 1]
+        local path = self.audio.layers:next()
+        if path then
+            body.layer = {}
+            body.layer.path = path
+            body.layer.loop = love.audio.newSource(body.layer.path, "stream")
+        end
     end
 
     return body
@@ -111,19 +117,25 @@ function SolarSystem:activateBody(body, overrideCore)
         love.graphics.circle("fill", body.body:getX(), body.body:getY(), 5*body.shape:getRadius())
     else
         if body.core then
-            -- Play song
-            if not body.vocals:isPlaying() then
-                body.vocals:setVolume(0.7)
-                body.vocals:setLooping(true)
-                love.audio.play(body.vocals)
+            -- Play loop
+            if not body.main.loop:isPlaying() then
+                body.main.loop:setVolume(0.7)    -- dear god make it stop
+                body.main.loop:setLooping(true)
+                love.audio.play(body.main.loop)
+
+                print(body.main.path)
             end
         elseif body.layer then
-            if not body.layer.song:isPlaying() then
-                body.layer.song:setVolume(0.7)
-                body.layer.song:setLooping(true)
-                body.layer.song:setPitch(body.layer.pitch)
-                love.audio.play(body.layer.song)
+            if not body.layer.loop:isPlaying() then
+                body.layer.loop:setVolume(0.7)
+                body.layer.loop:setLooping(true)
+                love.audio.play(body.layer.loop)
+
+                print(body.layer.path)
+
             end
+        else
+            print("No loop")
         end
 
         if not body.alive then
