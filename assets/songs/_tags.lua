@@ -756,7 +756,7 @@ local tags = {
             },
         },
         _126 = {
-            Dsharp = {
+            Eb = {
                 shock_arp_melody = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/392770/shock-arp-melody-free-126bpm-techno-synth-loop",
@@ -826,7 +826,7 @@ local tags = {
                     },
                 },
             },
-            Fsharp_m = {
+            Gbm = {
                 chaos = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/237125/nickdemarini-chaos-169bpm-trap-piano-loop",
@@ -851,7 +851,7 @@ local tags = {
             },
         },
         _170 = {
-            Csharp = {
+            Db = {
                 juice_wrld_x_lil_uzi_vert_feeling = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/173461/juice-wrld-x-lil-uzi-vert-feeling-170bpm-hip-hop-bells-loop",
@@ -898,7 +898,7 @@ local tags = {
                     },
                 },
             },
-            Fsharp = {
+            Gb = {
                 blrd_color_no_time_strong_bells = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/318369/blrd-color-no-time-strong-bells-free-86bpm-hip-hop-bells-loop",
@@ -980,7 +980,7 @@ local tags = {
             },
         },
         _98 = {
-            Dsharp = {
+            Eb = {
                 come_up_strings = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/135672/come-up-strings-98bpm-trap-strings-loop",
@@ -1083,7 +1083,7 @@ local tags = {
             },
         },
         _126 = {
-            Asharp = {
+            Bb = {
                 hellion_drake_x_nico_baran_synth_chords = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/384604/hellion-drake-x-nico-baran-synth-chords-free-126bpm-trap-synth-loop",
@@ -1099,7 +1099,7 @@ local tags = {
                     },
                 },
             },
-            Dsharp = {
+            Eb = {
                 shock_atmo = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/392824/shock-atmo-free-126bpm-techno-synth-loop",
@@ -1146,7 +1146,7 @@ local tags = {
                     },
                 },
             },
-            Fsharp_m = {
+            Gbm = {
                 justron_welcome_to_the_rodelil_skies = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/263438/justron-welcome-to-the-rode0-lil-skies-free-169bpm-trap-pad-loop",
@@ -1164,7 +1164,7 @@ local tags = {
             },
         },
         _170 = {
-            Csharp = {
+            Db = {
                 street_m_rigotti = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/323845/street-m-rigotti-free-170bpm-trap-synth-loop",
@@ -1193,7 +1193,7 @@ local tags = {
             },
         },
         _86 = {
-            Fsharp = {
+            Gb = {
                 lofi_rnb_vibe_bpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/337835/lofi-rnb-vibe-86-bpm-free-86bpm-lo-fi-bells-loop",
@@ -1229,7 +1229,7 @@ local tags = {
             },
         },
         _98 = {
-            Dsharp = {
+            Eb = {
                 chords_walk_98 = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/150591/chords-walk-98-98bpm-trap-synth-loop",
@@ -1434,7 +1434,7 @@ local tags = {
                     },
                 },
             },
-            Fsharp_m = {
+            Gbm = {
                 flute_march_169 = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/185770/flute-march-169-169bpm-trap-flute-loop",
@@ -1445,7 +1445,7 @@ local tags = {
             },
         },
         _170 = {
-            Csharp = {
+            Db = {
                 chaqui_xcx_no_cap = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/292095/chaqui-xcx-no-cap-free-170bpm-hip-hop-electric-guitar-loop",
@@ -1558,7 +1558,7 @@ local tags = {
             },
         },
         _98 = {
-            Dsharp = {
+            Eb = {
                 sakura = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/147386/sakura-98bpm-rap-strings-loop",
