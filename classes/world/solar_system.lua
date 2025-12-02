@@ -88,11 +88,15 @@ function SolarSystem:addBody(angle, dist, radius, isCore, state)
         body.main.path = self.audio.main
         body.main.loop = love.audio.newSource(self.audio.main, "stream")
     else
-        local path = self.audio.layers:next()
-        if path then
+        local _layer = self.audio.layers:next()
+        if _layer then
+            if not _layer.path then
+                print("ERROR, ln 94, solar_system.lua: ", _layer)
+            end
             body.layer = {}
-            body.layer.path = path
+            body.layer.path = _layer.path
             body.layer.loop = love.audio.newSource(body.layer.path, "stream")
+            body.layer.loop:setPitch(_layer.pitch)
         end
     end
 

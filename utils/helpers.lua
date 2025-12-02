@@ -41,6 +41,8 @@ function H.getGrey(color)
 end
 
 function H.getKeys(t)
+    if not t then return nil end
+
     local keys = {}
 
     for key,_ in pairs(t) do
@@ -48,6 +50,20 @@ function H.getKeys(t)
     end
 
     return keys
+end
+
+function H.printKeys(t)
+    if not t then return nil end
+    
+    local keys = H.getKeys(t)
+    if not t then return "" end
+
+    local key_str = ""
+    for key,_ in pairs(keys) do
+        key_str = key_str .. key .. ", "
+    end
+
+    return key_str
 end
 
 return H
