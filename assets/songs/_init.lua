@@ -9,6 +9,9 @@ local function formatName(filename, ext)
     local _,__,noExt = filename:find("(.+)%" .. ext .. "$")
     local result = noExt:gsub("[^%w]", "_")
 
+    result = result:gsub("looperman_l", "")
+    -- result = result:gsub("%d", "")
+
     -- cleanup
     result = result:gsub("_+", "_") -- consecutive underscores
     result = result:gsub("^_+", "") -- leading underscores
@@ -38,6 +41,8 @@ function i.initFiles(path, subfolders, ext, log)
 
         for _, b in ipairs(bpm) do      -- bpm values in type subfolder
             local keys = love.filesystem.getDirectoryItems(path .. sub .. "/" .. b .. "/")
+
+            H.printKeys(keys)
 
             if log then d = d .. "_" .. b .. " = {\n" end
 

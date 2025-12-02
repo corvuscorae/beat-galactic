@@ -1,7 +1,7 @@
 local init = require("assets.songs._init")
 
 local ext = ".mp3"
-local applepath = "/assets/songs/"
+local applepath = "assets/songs/"
 local subfolders = { "drums", "main", "padding", "texture" }
 local log_names = false
 
@@ -25,7 +25,7 @@ local tags = {
                         attr = "Antronical",
                     },
                 },
-                calvin_harris_x_the_weeknd_drum_loop_001 = {
+                calvin_harris_x_the_weeknd_drum_loop = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/380941/calvin-harris-x-the-weeknd-drum-loop-001-free-102bpm-pop-drum-loop",
                         name = "Calvin Harris x The Weeknd - Drum Loop 001",
@@ -46,7 +46,7 @@ local tags = {
                         attr = "Fanto8BC",
                     },
                 },
-                kendrick_lamar_drums_102bpm = {
+                kendrick_lamar_drums_bpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/380809/kendrick-lamar-drums-102bpm-free-102bpm-rap-drum-loop",
                         name = "Kendrick Lamar Drums 102bpm",
@@ -71,7 +71,7 @@ local tags = {
                         attr = "BoluTheProducer",
                     },
                 },
-                aggressive_fast_trap_drums_with_808 = {
+                aggressive_fast_trap_drums_with = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/396240/aggressive-fast-trap-drums-with-808-free-104bpm-trap-drum-loop",
                         name = "Aggressive fast trap drums with 808",
@@ -92,7 +92,7 @@ local tags = {
                         attr = "JBoogie22",
                     },
                 },
-                drum_loop_14 = {
+                drum_loop = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/403735/drum-loop-14-free-104bpm-hip-hop-drum-loop",
                         name = "Drum Loop 14",
@@ -117,7 +117,7 @@ local tags = {
         },
         _119 = {
             x = {
-                jackboys_type_drums_2 = {
+                jackboys_type_drums = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/405481/jackboys-2-type-drums-2-free-119bpm-trap-drum-loop",
                         name = "Jackboys 2 type drums 2",
@@ -188,7 +188,7 @@ local tags = {
         },
         _126 = {
             x = {
-                astro_house_drums_126bpm_with_kick = {
+                astro_house_drums_bpm_with_kick = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/411562/astro-house-drums-126bpm-with-kick-free-126bpm-house-drum-loop",
                         name = "Astro House Drums 126bpm - with kick",
@@ -202,14 +202,14 @@ local tags = {
                         attr = "Lainist",
                     },
                 },
-                futuristic_drum_loop_2 = {
+                futuristic_drum_loop = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/408625/futuristic-drum-loop-2-free-126bpm-boom-bap-drum-loop",
                         name = "Futuristic drum loop 2",
                         attr = "mrs0fly",
                     },
                 },
-                hard_edm_house_drum_loop_with_hats_part_2 = {
+                hard_edm_house_drum_loop_with_hats_part = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/408061/hard-edm-house-drum-loop-with-hats-part-2-free-126bpm-edm-drum-loop",
                         name = "Hard EDM House Drum Loop With Hats - PART 2",
@@ -255,14 +255,14 @@ local tags = {
                         attr = "808Snax",
                     },
                 },
-                drum_loop_140bpm = {
+                drum_loop_bpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/411689/drum-loop-22-808-140bpm-free-140bpm-trap-drum-loop",
                         name = "Drum Loop 22 808 140bpm",
                         attr = "IllSickBeats",
                     },
                 },
-                heavy_metal_type_drum_loop_4 = {
+                heavy_metal_type_drum_loop = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/410606/heavy-metal-type-drum-loop-4-free-140bpm-heavy-metal-drum-loop",
                         name = "Heavy Metal Type Drum Loop 4",
@@ -315,14 +315,14 @@ local tags = {
                         attr = "Krim3s",
                     },
                 },
-                hard_trap_freestyle_drum_loop_part_169bpm = {
+                hard_trap_freestyle_drum_loop_part_bpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/398922/hard-trap-freestyle-drum-loop-part-1-169bpm-free-169bpm-trap-drum-loop",
                         name = "Hard Trap Freestyle Drum Loop Part 1 169BPM",
                         attr = "SoundDriveRecords",
                     },
                 },
-                looperman_l_5610982_0398923_hard_trap_freestyle_drum_loop_part_2_169bpm = {
+                hard_trap_freestyle_drum_loop_part_2_169bpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/398923/hard-trap-freestyle-drum-loop-part-2-169bpm-free-169bpm-trap-drum-loop",
                         name = "Hard Trap Freestyle Drum Loop Part 2 169BPM",
@@ -368,7 +368,7 @@ local tags = {
                         attr = "RedGame64",
                     },
                 },
-                phonk_drum_pattern_with_fucked_808 = {
+                phonk_drum_pattern_with_fucked = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/277072/phonk-drum-pattern-with-fucked-808-free-170bpm-phonk-drum-loop",
                         name = "Phonk drum pattern with fucked 808",
@@ -407,7 +407,7 @@ local tags = {
                         attr = "DasDimaBeatz",
                     },
                 },
-                killer_drums_7 = {
+                killer_drums = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/181278/killer-drums-7-71bpm-hip-hop-drum-loop",
                         name = "Killer Drums 7",
@@ -506,14 +506,14 @@ local tags = {
                         attr = "mRIDIEE",
                     },
                 },
-                dark_drums_hip_hop_90s_with_intense_bpm = {
+                dark_drums_hip_hop_s_with_intense_bpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/403057/dark-drums-hip-hop-90s-with-intense-808-87-bpm-free-87bpm-hip-hop-drum-loop",
                         name = "DARK Drums Hip hop 90s with Intense 808 - 87 bpm",
                         attr = "MakoMendez",
                     },
                 },
-                modern_reggaeton_loop_erlin_urbano_2 = {
+                modern_reggaeton_loop_erlin_urbano = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/410712/modern-reggaeton-loop-erlin-urbano-2025-2-free-87bpm-reggaeton-drum-loop",
                         name = "Modern Reggaeton Loop Erlin Urbano 2025 - 2",
@@ -545,14 +545,14 @@ local tags = {
                         attr = "dantesl",
                     },
                 },
-                cali_808 = {
+                cali = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/408567/cali-808-free-92bpm-trap-drum-loop",
                         name = "cali 808",
                         attr = "joetonthebeat",
                     },
                 },
-                jerk_hoodtrap_drum_92bpm = {
+                jerk_hoodtrap_drum_bpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/405225/jerk-hoodtrap-drum-92bpm-free-92bpm-trap-drum-loop",
                         name = "jerk hoodtrap drum 92bpm",
@@ -598,7 +598,7 @@ local tags = {
                         attr = "joetonthebeat",
                     },
                 },
-                modern_reggaeton_loop_erlin_urbano_1 = {
+                modern_reggaeton_loop_erlin_urbano = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/410483/modern-reggaeton-loop-erlin-urbano-2025-1-free-98bpm-reggaeton-drum-loop",
                         name = "Modern Reggaeton Loop Erlin Urbano 2025 - 1",
@@ -612,7 +612,7 @@ local tags = {
                         attr = "JazzyJT",
                     },
                 },
-                trapsoul_x_rnb_type_drum_loop_001 = {
+                trapsoul_x_rnb_type_drum_loop = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/379232/trapsoul-x-rnb-type-drum-loop-001-free-98bpm-rnb-drum-loop",
                         name = "Trapsoul x Rnb Type Drum Loop - 001",
@@ -632,7 +632,7 @@ local tags = {
                         attr = "KeyAnoBeats",
                     },
                 },
-                piano_ride_102 = {
+                piano_ride = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/137049/piano-ride-102-102bpm-trap-piano-loop",
                         name = "piano ride 102",
@@ -666,7 +666,7 @@ local tags = {
                         attr = "Antronical",
                     },
                 },
-                the_price_is_right_trap_rap_guitar_part_2 = {
+                the_price_is_right_trap_rap_guitar_part = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/227541/the-price-is-right-trap-rap-guitar-part-2-104bpm-rap-acoustic-guitar-loop",
                         name = "The Price is Right - Trap Rap Guitar Part 2",
@@ -714,7 +714,7 @@ local tags = {
                         attr = "MXPAA",
                     },
                 },
-                mxpaaa_house_starter_piano_pt2 = {
+                mxpaaa_house_starter_piano_pt = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/384558/mxpaaa-house-starter-piano-pt2-free-119bpm-house-piano-loop",
                         name = "MXPAAA HOUSE STARTER PIANO PT2",
@@ -766,7 +766,7 @@ local tags = {
                 },
             },
             F = {
-                dark_piano_riff_1 = {
+                dark_piano_riff = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/145799/dark-piano-riff-1-126bpm-hip-hop-piano-loop",
                         name = "Dark Piano Riff 1",
@@ -818,7 +818,7 @@ local tags = {
                 },
             },
             E = {
-                pop_punk_type_guitar_stars_pt1 = {
+                pop_punk_type_guitar_stars_pt = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/329864/pop-punk-type-guitar-stars-pt1-free-169bpm-punk-electric-guitar-loop",
                         name = "Pop Punk Type Guitar - Stars PT1",
@@ -841,7 +841,7 @@ local tags = {
                         attr = "DeoBeats",
                     },
                 },
-                wooden_flute_169 = {
+                wooden_flute = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/185767/wooden-flute-169-169bpm-trap-flute-loop",
                         name = "wooden flute 169",
@@ -890,7 +890,7 @@ local tags = {
         },
         _86 = {
             B = {
-                nostalgic_ambient_guitar_pt1 = {
+                nostalgic_ambient_guitar_pt = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/390678/nostalgic-ambient-guitar-pt1-free-86bpm-trap-electric-guitar-loop",
                         name = "nostalgic ambient guitar pt1",
@@ -931,14 +931,14 @@ local tags = {
                         attr = "AzureSkies",
                     },
                 },
-                rasputin60s_ballad_guitar_strums = {
+                rasputins_ballad_guitar_strums = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/100547/60s-ballad-guitar-strums-by-rasputin1963-free-87bpm-pop-electric-guitar-loop",
                         name = "60s Ballad Guitar Strums",
                         attr = "Rasputin",
                     },
                 },
-                sushilbawa_adventure_tone_87 = {
+                sushilbawa_adventure_tone = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/122899/adventure-tone-87-by-sushilbawa-free-87bpm-trap-synth-loop",
                         name = "adventure tone 87",
@@ -956,7 +956,7 @@ local tags = {
                         attr = "EZGoing",
                     },
                 },
-                october_mood_synth_of_2 = {
+                october_mood_synth_of = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/229613/october-2-mood-synth-1-of-2-by-zacwilkins-free-92bpm-pop-synth-loop",
                         name = "October 2 - Mood Synth 1 of 2",
@@ -1015,6 +1015,50 @@ local tags = {
         },
     },
     padding = {
+        _81 = {
+            Ab = {
+                one_shot_pad = {
+                    source = {
+                            link = "https://www.looperman.com/loops/detail/404981/one-shot-pad-free-81bpm-hip-hop-synth-loop",
+                            name = "One Shot Pad",
+                            attr = "alrigh8",
+                        },
+                }
+            }
+        },
+        _72 = {
+            Ab = {
+                hbs_vintage_warmth_g_sharp_bpm = {
+                    source = {
+                            link = "https://www.looperman.com/loops/detail/301972/hbs-vintage-warmth-03-g-sharp-72bpm-free-72bpm-chill-out-synth-loop",
+                            name = "HBS Vintage Warmth 03 G-sharp 72BPM",
+                            attr = "hbsamples",
+                        },
+                }
+            }
+        },
+        _54 = {
+            Eb = {
+                rasputin_oldschool_male_soul_oohs = {
+                    source = {
+                            link = "https://www.looperman.com/loops/detail/99437/oldschool-male-soul-oohs-by-rasputin1963-free-54bpm-soul-vocal-loop",
+                            name = "Oldschool Male Soul Oohs",
+                            attr = "Rasputin",
+                        },
+                }
+            }
+        },
+        _68 = {
+            G = {
+                danke_jammy_sax_loop = {
+                    source = {
+                            link = "https://www.looperman.com/loops/detail/97689/jammy-sax-loop-by-danke-free-68bpm-chill-out-brass-loop",
+                            name = "Jammy sax loop",
+                            attr = "Danke",
+                        },
+                }
+            }
+        },
         _102 = {
             C = {
                 chopped_synth = {
@@ -1044,7 +1088,7 @@ local tags = {
         },
         _104 = {
             D = {
-                hbsamples_hbs_inferno_choir_da104bpm = {
+                hbsamples_hbs_inferno_choir_dabpm = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/107434/hbs-inferno-choir-d3-a5-104bpm-by-hbsamples-free-104bpm-cinematic-choir-loop",
                         name = "HBS Inferno Choir D3-A5 104BPM",
@@ -1091,7 +1135,7 @@ local tags = {
                         attr = "1Hellion",
                     },
                 },
-                sushilbawa_vox_sweet_sad_humming_sushilbawa_126 = {
+                sushilbawa_vox_sweet_sad_humming_sushilbawa = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/126338/vox-sweet-sad-humming-sushilbawa-126-by-sushilbawa-free-126bpm-classical-vocal-loop",
                         name = "VOX SWEET SAD HUMMING SUSHILBAWA 126",
@@ -1172,7 +1216,7 @@ local tags = {
                         attr = "MRIGOTTI",
                     },
                 },
-                wood_pipe_170 = {
+                wood_pipe = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/155655/wood-pipe-170-170bpm-trap-flute-loop",
                         name = "wood pipe 170",
@@ -1216,6 +1260,15 @@ local tags = {
                     },
                 },
             },
+            B = {
+                early_bird_piano_loop_part = {
+                    source = {
+                            link = "https://www.looperman.com/loops/detail/373953/early-bird-piano-loop-part-1-free-86bpm-soul-piano-loop",
+                            name = "Early Bird - Piano Loop - Part 1",
+                            attr = "Sbagliohasbeenhere",
+                        },
+                }
+            }
         },
         _87 = {
             F = {
@@ -1228,9 +1281,27 @@ local tags = {
                 },
             },
         },
+        _92 = {
+            C = {
+                cereal_pad = {
+                    source = {
+                        link = "https://www.looperman.com/loops/detail/116920/cereal-pad-92-cm-by-silencekills-free-92bpm-trip-hop-pad-loop",
+                        name = "Cereal Pad - 92 - Cm",
+                        attr = "silencekills",
+                    },
+                },
+                vinyl_pad = {
+                    source = {
+                        link = "https://www.looperman.com/loops/detail/270949/vinyl-pad-free-92bpm-electronic-pad-loop",
+                        name = "Vinyl Pad",
+                        attr = "fu8088",
+                    },
+                },
+            }
+        },
         _98 = {
             Eb = {
-                chords_walk_98 = {
+                chords_walk = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/150591/chords-walk-98-98bpm-trap-synth-loop",
                         name = "chords walk 98",
@@ -1239,7 +1310,7 @@ local tags = {
                 },
             },
             F = {
-                humming_vocal_sushilbawa_98 = {
+                humming_vocal_sushilbawa = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/139722/humming-vocal-sushilbawa-98-98bpm-trap-vocal-loop",
                         name = "humming vocal sushilbawa 98",
@@ -1259,6 +1330,17 @@ local tags = {
         },
     },
     texture = {
+        _81 = {
+            Gm = {
+                sad_lofi_piano_loop = {
+                    source = {
+                        link = "https://www.looperman.com/loops/detail/337456/sad-lofi-piano-loop-free-81bpm-lo-fi-piano-loop",
+                        name = "sad lofi piano loop",
+                        attr = "markushmane",
+                    },
+                },
+            }
+        },
         _102 = {
             D = {
                 svenley_spacy_delay_ii = {
@@ -1304,7 +1386,7 @@ local tags = {
                         attr = "Rasputin",
                     },
                 },
-                distorted_bassline_4 = {
+                distorted_bassline = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/362621/distorted-bassline-4-free-104bpm-electronic-bass-guitar-loop",
                         name = "Distorted Bassline 4",
@@ -1322,7 +1404,7 @@ local tags = {
                         attr = "johnny808",
                     },
                 },
-                synth_119 = {
+                synth = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/142033/synth-119-119bpm-trap-synth-loop",
                         name = "synth 119",
@@ -1333,7 +1415,7 @@ local tags = {
         },
         _121 = {
             B = {
-                gangsta_bass_shots_pt_1 = {
+                gangsta_bass_shots_pt = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/152684/gangsta-bass-shots-pt-1-121bpm-deep-house-bass-synth-loop",
                         name = "Gangsta Bass Shots Pt 1",
@@ -1367,7 +1449,7 @@ local tags = {
         },
         _126 = {
             F = {
-                dj4kat_rain_harp_loop = {
+                djkat_rain_harp_loop = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/117505/rain-harp-loop-by-dj4kat-free-126bpm-ethnic-synth-loop",
                         name = "Rain Harp Loop",
@@ -1392,14 +1474,14 @@ local tags = {
         },
         _140 = {
             C = {
-                bell_trap_beat_bmp_140 = {
+                bell_trap_beat_bmp = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/411731/bell-trap-beat-bmp-140-free-140bpm-trap-bells-loop",
                         name = "bell trap beat bmp 140",
                         attr = "tikelzbeat",
                     },
                 },
-                gltichsaw_c_140 = {
+                gltichsaw_c = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/406840/gltichsaw-c-140-free-140bpm-dubstep-bass-synth-loop",
                         name = "gltichsaw C 140",
@@ -1426,7 +1508,7 @@ local tags = {
                 },
             },
             D = {
-                dope_808 = {
+                dope = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/292662/dope-808-free-169bpm-trap-drum-loop",
                         name = "Dope 808",
@@ -1435,7 +1517,7 @@ local tags = {
                 },
             },
             Gbm = {
-                flute_march_169 = {
+                flute_march = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/185770/flute-march-169-169bpm-trap-flute-loop",
                         name = "flute march 169",
@@ -1453,7 +1535,7 @@ local tags = {
                         attr = "chaquixcx",
                     },
                 },
-                dnb_style_bass_1 = {
+                dnb_style_bass = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/303781/dnb-style-bass-1-free-170bpm-drum-and-bass-bass-synth-loop",
                         name = "DNB Style Bass 1",
@@ -1491,11 +1573,25 @@ local tags = {
         },
         _86 = {
             B = {
-                nostalgic_ambient_vocal_vox_pt2 = {
+                nostalgic_ambient_vocal_vox_pt = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/390679/nostalgic-ambient-vocal-vox-pt2-free-86bpm-trap-vocal-loop",
                         name = "nostalgic ambient vocal vox pt2",
                         attr = "1kobeatz",
+                    },
+                },
+                vintage_piano_melody_sample_loop = {
+                    source = {
+                        link = "https://www.looperman.com/loops/detail/364922/vintage-piano-melody-sample-loop-free-86bpm-boom-bap-piano-loop",
+                        name = "Vintage Piano Melody Sample Loop",
+                        attr = "541music",
+                    },
+                },
+                iamroofa_saturday_night = {
+                    source = {
+                        link = "https://www.looperman.com/loops/detail/293853/iamroofa-saturday-night-free-86bpm-rnb-acoustic-guitar-loop",
+                        name = "Iamroofa - Saturday Night",
+                        attr = "RNBLEAGUE",
                     },
                 },
             },
@@ -1568,7 +1664,7 @@ local tags = {
                 },
             },
             F = {
-                synth_bassline_no1 = {
+                synth_bassline_no = {
                     source = {
                         link = "https://www.looperman.com/loops/detail/154318/synth-bassline-no1-98bpm-pop-bass-synth-loop",
                         name = "Synth Bassline No1",
