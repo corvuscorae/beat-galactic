@@ -44,6 +44,8 @@ function solar:load(args)
     -- systemDat.visited = true
     activatedPlanets = 0
 
+    deactivateMode = false
+
     -- Graphics setup
     --love.window.setMode(width, height)
 end
@@ -181,14 +183,15 @@ function solar:draw()
 
         if planet.deactivate then
             planets:deactivateBody(planet)
-            planet.deactivate = false
         end
     end
 
-    love.graphics.setColor(1, 1, 1, 0.5)
     love.graphics.push()
+    local shipColor = deactivateMode and {1, 0, 0, 0.5} or {1, 1, 1, 0.5}
+    love.graphics.setColor(shipColor)
     love.graphics.translate(ship.body:getX(), ship.body:getY())
     love.graphics.rotate(ship.body:getAngle())
+    love.graphics.polygon("line", ship.shape:getPoints())
     if isThrusting then
         love.graphics.setColor(1, 0.5, 0, 0.2)
         love.graphics.polygon("fill", 0, 15, 5, 25, -5, 25)
@@ -219,17 +222,19 @@ function beginContact(a, b, coll)
     if (aData.id == "planet" and bData.id == "ship") or
        (aData.id == "ship" and bData.id == "planet") then
         for _, planet in ipairs(planets.system) do
-            if not planet.alive then
-                local pData = planet.fixture:getUserData()
-                if pData and (pData.index == aData.index or pData.index == bData.index) then
-                    if planets.system[1].alive or pData.index == 1 then
-                        if not planet.activationTime then print("activating!") end
-                        planet.activationTime = love.timer.getTime() -- trigger planet destruction
+            local pData = planet.fixture:getUserData()
+            if pData and (pData.index == aData.index or pData.index == bData.index) then
+                if planets.system[1].alive or pData.index == 1 then
+                    if not planet.alive then
+                        planet.activationTime = love.timer.getTime() 
+                    else
+                        if deactivateMode then
+                            planet.deactivate = true
+                        end
                     end
                 end
             end
         end
-
     end
 end
 
@@ -266,6 +271,20 @@ function solar:keypressed(key)
 
     if key=="d" then
         debugMode = not debugMode
+    end
+
+    if key== "lctrl" or key == "rctrl" then
+        deactivateMode = true;
+    end
+end
+
+function solar:keyreleased(key)
+    if key== "lctrl" or key == "rctrl" then
+        deactivateMode = false;
+
+        for i,planet in pairs(planets.system) do
+            planet.deactivate = false
+        end
     end
 end
 
