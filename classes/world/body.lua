@@ -1,3 +1,4 @@
+local loveFFT = require("lib.lovefft.lovefft")
 local H = require("utils.helpers")
 local Body = {}
 Body.__index = Body
@@ -9,7 +10,8 @@ function Body:new(config, position, state)
     -- initial state
     instance.alive = state and state.alive or false 
     instance.activationTime = state and state.activationTime or nil
-    instance.core = config.isCore  -- central body?
+    instance.core = config.core  -- central body?
+    instance.audio = nil
 
     -- physics
     instance.body = love.physics.newBody(
@@ -29,6 +31,44 @@ function Body:new(config, position, state)
     end
 
     return instance
+end
+
+function Body:initFFT(size, ID)
+    if not self.soundData then return end
+
+    if not self.fft then
+        self.fft = {}
+
+        self.fft.size = size
+        self.fft.array = {}
+
+        self.fft.comp = loveFFT:new(size, ID)
+        self.fft.comp:setSoundData(self.soundData)
+        print("body " .. ID .. " FFT initialized!")
+
+    else
+        print(self.fft.comp, self.fft.array, self.fft.size)
+    end
+
+end
+
+function Body:FFTsnapshot()
+    return {
+        fft
+    }
+end
+
+function Body:updateFFT()
+    if not self.soundData then return end
+    if not self.audio then return end
+
+    if self.audio:isPlaying() then
+        local time = self.audio:tell()
+        if time < self.audio:getDuration() then
+            self.fft.comp:updatePlayTime(time)
+            self.fft.array = self.fft.comp:pop()
+        end
+    end
 end
 
 function Body:render()

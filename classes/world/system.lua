@@ -58,7 +58,12 @@ function System:addBodies(numBodies, startIndex, allCore)
     
             if not tooClose then
                 local radius = love.math.random(self.minRadius, self.maxRadius * shrink)
-                self:addBody(angle, dist, radius, allCore or false)
+                self:addBody({
+                    angle = angle, 
+                    dist = dist, 
+                    radius = radius, 
+                    core = allCore or false
+                })
                 placed = true
             end
         end
@@ -71,6 +76,12 @@ end
 
 function System:clearBodies()
     for _, body in ipairs(self.system) do
+        if body.fft then
+            body.fft.comp:release()
+        end
+        if body.audio then
+            body.audio:stop()
+        end
         if body.fixture and not body.fixture:isDestroyed() then
                 body.fixture:destroy()
         end

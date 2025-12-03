@@ -69,18 +69,18 @@ function Galaxy:populate(config, world)
     return g
 end
 
-function Galaxy:addBody(angle, dist, radius)
+function Galaxy:addBody(c)
     local config = {
         world = world,
-        isCore = false,
+        core = false,
         mask = self.mask,
         type = "static"
     }
 
     local pos = {
-        x = width / 2 + math.cos(angle) * dist,
-        y = height / 2 + math.sin(angle) * dist,
-        radius = radius,
+        x = width / 2 + math.cos(c.angle) * c.dist,
+        y = height / 2 + math.sin(c.angle) * c.dist,
+        radius = c.radius,
     }
 
     local body = Body:new(config, pos)
@@ -181,7 +181,7 @@ end
 
 function Galaxy:getLayers(types, metrics)
     local layers = {}
-    local maxTries = 500
+    local maxTries = 5
 
     for _,type in pairs(types) do
         local loop = { path = nil }

@@ -13,7 +13,7 @@ function solar:load(args)
     end
     ---------------------------
 
-    local systemDat = args.planets  
+    systemDat = args.planets  
     
     math.randomseed(systemDat.config.seed)
 
@@ -34,7 +34,7 @@ function solar:load(args)
 
     -- Make planets
     planets = SolarSystem:new(
-        world,
+        world, systemDat.config.index,
         systemDat.snapshot or systemDat.config.numPlanets,
         systemDat.config.planetMinRadius,
         systemDat.config.planetMaxRadius,

@@ -21,10 +21,11 @@ local SolarSystem = {}
 SolarSystem.__index = SolarSystem
 setmetatable(SolarSystem, {__index = System})
 
-function SolarSystem:new(world, planets, minRadius, maxRadius, audio, maxAttempts)
+function SolarSystem:new(world, index, planets, minRadius, maxRadius, audio, maxAttempts)
     local instance = System:new(world, "planet", minRadius, maxRadius, maxAttempts)
     setmetatable(instance, SolarSystem)
     
+    instance.index = index
     instance.type = "solar_system"
     instance.audio = audio
     instance.beat = -1
@@ -42,65 +43,98 @@ end
 function SolarSystem:generateSystem(numPlanets)
     -- place sun in center
     local m = math.random(1.5, 3)
-    self:addBody(0, 0, self.maxRadius*m, true)
+    self:addBody({
+        angle = 0, 
+        dist = 0, 
+        radius = self.maxRadius*m, 
+        core = true
+    })
 
     self:addBodies(numPlanets, 2)
 end
 
-function SolarSystem:addBody(angle, dist, radius, isCore, state)
-    local forceColor = isCore and {1,1,1} or nil
+function SolarSystem:addBody(c)
+    local forceColor = c.core and {1,1,1} or nil
 
     local config = {
         world = self.world,
-        isCore = isCore,
+        core = c.core,
         mask = self.mask,
-        type = isCore and "static" or "dynamic"
+        type = c.core and "static" or "dynamic"
     }
 
     local pos = {
-        x = width / 2 + math.cos(angle) * dist,
-        y = height / 2 + math.sin(angle) * dist,
-        radius = radius,
+        x = width / 2 + math.cos(c.angle) * c.dist,
+        y = height / 2 + math.sin(c.angle) * c.dist,
+        radius = c.radius,
     }
 
-    local body = Body:new(config, pos, state)
+    local body = Body:new(config, pos, c.state)
 
     -- adding planet specific stuff to body
-    -- body.loop = self.loopBag:next()
-    body.color = forceColor or colorBag:next()
-    body.rendering = {
-        func = function ()
-                local color = body.alive and body.color or H.getGrey(body.color)
-                love.graphics.setColor(color)
-                love.graphics.circle("fill", body.body:getX(), body.body:getY(), body.radius)
-            end,
-        args = { }
-    }
 
     -- positioning
-    body.angle = angle
-    body.dist = dist
-    body.rotationSpeed = radius / 150
+    body.angle = c.angle
+    body.dist = c.dist
+    body.rotationSpeed = c.radius / 150
 
     table.insert(self.system, body)
     body.fixture:setUserData({ id=self.bodyType, index=#self.system })
 
     if body.core then
-        body.main = self.audio.main
-        -- body.main.path = self.audio.main.path
-        body.main.loop = love.audio.newSource(self.audio.main.path, "stream")
-    else
-        local _layer = self.audio.layers:next()
-        if _layer then
-            if not _layer.path then
-                print("ERROR, ln 94, solar_system.lua: ", _layer)
-            end
-            body.layer = {}
-            body.layer.path = _layer.path
-            body.layer.loop = love.audio.newSource(body.layer.path, "stream")
-            body.layer.loop:setPitch(_layer.pitch)
+        if c.main then body.main = c.main 
+        else
+            body.main = self.audio.main
+            -- body.main.path = self.audio.main.path
+            body.main.loop = love.audio.newSource(self.audio.main.path, "stream")
         end
+            body.soundData = body.main.path
+            body.audio = body.main.loop
+    else
+        if c.layer then body.layer = c.layer 
+        else
+            local _layer = self.audio.layers:next()
+            if _layer then
+                body.layer = {}
+                body.layer.path = _layer.path
+                body.layer.loop = love.audio.newSource(body.layer.path, "stream")
+                body.layer.loop:setPitch(_layer.pitch)
+            end
+        end
+        body.soundData = body.layer.path
+        body.audio = body.layer.loop
     end
+
+    -- if c.fft then body.fft = c.fft end
+
+    if not body.fft then 
+        body:initFFT(32, tostring(self.index) .. "." .. tostring(#self.system))
+    end
+
+    if not c.color then 
+        body.color = forceColor or colorBag:next()
+    else
+        body.color = c.color
+    end
+
+    body.rendering = {
+        func = function ()
+                local color = body.alive and body.color or H.getGrey(body.color)
+                love.graphics.setColor(color)
+                
+                if body.alive and #body.fft.array > 0 then
+                    for i = 1, body.fft.size/8 do
+                        -- print(body.fft.size, #body.fft.array, body.fft.array[i], i)
+                        local rad = body.fft.array[i] * 100
+                        love.graphics.circle("fill", body.body:getX(), body.body:getY(), body.radius)
+                        love.graphics.circle("line", body.body:getX(), body.body:getY(), body.radius + rad)
+                    end
+                else
+                    love.graphics.circle("fill", body.body:getX(), body.body:getY(), body.radius)
+                end
+            end,
+        args = { }
+    }
 
     return body
 end
@@ -124,30 +158,25 @@ function SolarSystem:activateBody(body, overrideCore)
     else
         if body.core then
             -- Play loop
-            if not body.main.active then
-                body.main.loop:setVolume(0.7)    -- dear god make it stop
+            if not body.main.loop:isPlaying() then
+                body.main.loop:setVolume(0.1)    -- dear god make it stop
                 body.main.loop:setLooping(true)
                 love.audio.play(body.main.loop)
 
                 print(body.main.path)
-
-                body.main.active = true
             end
         elseif body.layer then
-            if not body.layer.active then
-                body.layer.loop:setVolume(0.7)
+            if not body.layer.loop:isPlaying() then
+                body.layer.loop:setVolume(0.1)
                 body.layer.loop:setLooping(true)
 
                 if not (self.beat >= 0.9) then
                     table.insert(self.queued, body.layer)
-                    print("loop queued")
-
+                    -- print("loop queued")
                 else
                     love.audio.play(body.layer.loop)
                     print(body.layer.path)
                 end
-
-                body.layer.active = true
             end
         else
             print("No loop")
@@ -163,11 +192,14 @@ function SolarSystem:snapshot()
     local s = {}
     for i, body in ipairs(self.system) do
         s[i] = {
+            -- fft = body.fft,
+            color = body.color,
             angle = body.angle,
             dist = body.dist,
             radius = body.radius,
             core = body.core,
             layer = body.layer,
+            main = body.main,
             state = {alive=body.alive, activationTime=body.activationTime}
         }
     end
@@ -176,8 +208,13 @@ function SolarSystem:snapshot()
 end
 
 function SolarSystem:loadSnapshot(snapshot)
+    print("loading snapshot")
     for i, b in ipairs(snapshot) do
-        local body = self:addBody(b.angle, b.dist, b.radius, b.core, b.state)
+        local body = self:addBody(b)
+
+        if b.state and b.state.activationTime then
+            self:activateBody(body)
+        end
 
         for j,v in pairs(b) do
             if not body[j] then body[j] = v end
@@ -187,6 +224,8 @@ function SolarSystem:loadSnapshot(snapshot)
 end
 
 function SolarSystem:update()
+    if not self.system then return end -- nothign to update
+
     local bpm = self.system[1].main.metrics.bpm:gsub("_", "")
     local beatWidth = 1 / (tonumber(bpm) / 60)
 
@@ -202,6 +241,13 @@ function SolarSystem:update()
         end
 
         table.remove(self.queued, 1)
+    end
+
+    -- update planets fft
+    for _,planet in pairs(self.system) do
+        if planet.fft and planet.audio:isPlaying() then
+            planet:updateFFT()
+        end
     end
 end
 
