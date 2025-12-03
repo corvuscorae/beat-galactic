@@ -171,42 +171,8 @@ function solar:draw()
         love.graphics.line(points)
     end
 
-    -- Black hole effect: event horizon and accretion disk
-    -- Draw radial gradient for event horizon
-    for r = lensRadius * 0.7, lensRadius, 2 do
-        local alpha = 0.15 * (1 - (r - lensRadius * 0.7) / (lensRadius * 0.3))
-        love.graphics.setColor(0, 0, 0, alpha)
-        love.graphics.circle("fill", sx, sy, r)
-    end
-
-    -- Draw swirling accretion disk
-    local diskRadius = lensRadius * 1.2
-    local segments = 32
-    for i = 1, segments do
-        local angle = (i / segments) * 2 * math.pi
-        local nextAngle = ((i + 1) / segments) * 2 * math.pi
-        local innerR = lensRadius * 1.05 + math.sin(love.timer.getTime() * 2 + angle * 3) * 3
-        local outerR = diskRadius + math.cos(love.timer.getTime() * 2 + angle * 2) * 4
-        local t = love.timer.getTime()
-        local r = (0.1*activatedPlanets) + 0.3 * math.sin(t)
-        local g = (0.1*activatedPlanets) + 0.3 * math.sin(t + 2)
-        local b = (0.1*activatedPlanets) + 0.3 * math.sin(t + 4)
-        local a = 0.3 + 0.3 * math.sin(angle * 4 + t)
-        love.graphics.setColor(r, g, b, a)
-        love.graphics.arc("fill", sx, sy, (innerR + outerR) / 2, angle, nextAngle)
-    end
-
-    -- Draw subtle black hole core
-    love.graphics.setColor(0, 0, 0, 0.4)
-    love.graphics.circle("fill", sx, sy, lensRadius * 0.7)
-    love.graphics.circle("line", sx, sy, lensRadius)
-
-    -- Draw planets
+    -- draw planets
     for _, planet in ipairs(planets.system) do        
-        -- local color = planet.alive and planet.color or planets:getGrey(planet.color)
-        
-        -- love.graphics.setColor(color)
-        -- love.graphics.circle("fill", planet.body:getX(), planet.body:getY(), planet.shape:getRadius())
         planet:render()
 
         if planet.activationTime then
@@ -214,22 +180,17 @@ function solar:draw()
         end
     end
 
-    -- Ship is invisible: do not draw ship polygon or thrust flame
-    -- only drawing ship when turning 
-    if isTurning then
-        love.graphics.setColor(1, 1, 1, 0.2)
-        love.graphics.push()
-        love.graphics.translate(ship.body:getX(), ship.body:getY())
-        love.graphics.rotate(ship.body:getAngle())
-        love.graphics.polygon("line", ship.shape:getPoints())
-        love.graphics.pop()
-    end
-    --[[
+    love.graphics.setColor(1, 1, 1, 0.5)
+    love.graphics.push()
+    love.graphics.translate(ship.body:getX(), ship.body:getY())
+    love.graphics.rotate(ship.body:getAngle())
+    love.graphics.polygon("line", ship.shape:getPoints())
     if isThrusting then
-        love.graphics.setColor(1, 0.5, 0)
+        love.graphics.setColor(1, 0.5, 0, 0.2)
         love.graphics.polygon("fill", 0, 15, 5, 25, -5, 25)
     end
-    ]]
+    love.graphics.pop()
+
 
     if debugMode then
         love.graphics.print("DEBUG MODE: click to activate", 10, 10)
