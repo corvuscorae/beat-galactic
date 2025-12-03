@@ -175,8 +175,13 @@ function solar:draw()
     for _, planet in ipairs(planets.system) do        
         planet:render()
 
-        if planet.activationTime then
+        if planet.activationTime and not planet.alive then
             planets:activateBody(planet)
+        end
+
+        if planet.deactivate then
+            planets:deactivateBody(planet)
+            planet.deactivate = false
         end
     end
 
@@ -184,7 +189,6 @@ function solar:draw()
     love.graphics.push()
     love.graphics.translate(ship.body:getX(), ship.body:getY())
     love.graphics.rotate(ship.body:getAngle())
-    love.graphics.polygon("line", ship.shape:getPoints())
     if isThrusting then
         love.graphics.setColor(1, 0.5, 0, 0.2)
         love.graphics.polygon("fill", 0, 15, 5, 25, -5, 25)
@@ -219,6 +223,7 @@ function beginContact(a, b, coll)
                 local pData = planet.fixture:getUserData()
                 if pData and (pData.index == aData.index or pData.index == bData.index) then
                     if planets.system[1].alive or pData.index == 1 then
+                        if not planet.activationTime then print("activating!") end
                         planet.activationTime = love.timer.getTime() -- trigger planet destruction
                     end
                 end
@@ -275,7 +280,12 @@ function solar:mousepressed(x, y, button, istouch)
 
                 if x <= sysX + r and x >= sysX - r and y <= sysY + r and y >= sysY - r then
                     if planets.system[1].alive or i == 1 then
-                        planet.activationTime = love.timer.getTime() -- trigger planet destruction
+                        if not planet.activationTime then 
+                            print("activating!") 
+                            planet.activationTime = love.timer.getTime() -- trigger planet destruction
+                        else
+                            planet.deactivate = true;
+                        end
                     end
                 end
 

@@ -185,11 +185,11 @@ function Galaxy:getLayers(types, metrics)
 
     for _,type in pairs(types) do
         local loop = { path = nil }
-        local tries = 0
-        while tries < maxTries and not loop.path do 
+        -- local tries = 0
+        -- while tries < maxTries and not loop.path do 
             loop = self:getLayer(type, metrics) 
-            tries = tries + 1
-        end
+            -- tries = tries + 1
+        -- end
         if loop.path then table.insert(layers, loop) end
     end
 

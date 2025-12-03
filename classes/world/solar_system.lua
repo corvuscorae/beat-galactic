@@ -148,6 +148,18 @@ function SolarSystem:moveBody(body, dt)
     body.body:setPosition(x,y)
 end
 
+function SolarSystem:deactivateBody(body)
+    body.audio:stop()
+    body.alive = false
+    body.activationTime = nil
+
+    if body.core then
+        for _,b in pairs(self.system) do
+            if not b.core then self:deactivateBody(b) end
+        end
+    end
+end
+
 function SolarSystem:activateBody(body, overrideCore)
     -- requires system's core to be active to proceed (unless override flag is on)
     if not overrideCore and (not body.core and not self.system[1].alive) then return end 
@@ -159,7 +171,7 @@ function SolarSystem:activateBody(body, overrideCore)
         if body.core then
             -- Play loop
             if not body.main.loop:isPlaying() then
-                body.main.loop:setVolume(0.1)    -- dear god make it stop
+                body.main.loop:setVolume(0.1)    
                 body.main.loop:setLooping(true)
                 love.audio.play(body.main.loop)
 
