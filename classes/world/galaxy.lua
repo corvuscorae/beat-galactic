@@ -54,7 +54,7 @@ function Galaxy:populate(config, world)
                 planetMinRadius = config.planetMinRadius, 
                 planetMaxRadius = config.planetMaxRadius, 
                 audio = { 
-                    main = main.path,
+                    main = main,
                     layers = ShuffleBag.new(layers)
                 },
                 seed = math.random(0, 10000)

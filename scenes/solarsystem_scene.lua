@@ -233,7 +233,16 @@ function solar:draw()
 
     if debugMode then
         love.graphics.print("DEBUG MODE: click to activate", 10, 10)
+
+        if planets.system[1].main and planets.system[1].main.loop then
+            local b = planets.beat
+            if b >= 0.9 then love.graphics.setColor(1, 0.5, 0) else love.graphics.setColor(1, 1, 1) end
+            love.graphics.print(b , 10, 100)
+        end
+
     end
+
+    planets:update()
 
 end
 

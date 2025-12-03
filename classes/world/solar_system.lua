@@ -27,6 +27,8 @@ function SolarSystem:new(world, planets, minRadius, maxRadius, audio, maxAttempt
     
     instance.type = "solar_system"
     instance.audio = audio
+    instance.beat = -1
+    instance.queued = {}
 
     if type(planets) == "number" then
         instance:generateSystem(planets)
@@ -84,9 +86,9 @@ function SolarSystem:addBody(angle, dist, radius, isCore, state)
     body.fixture:setUserData({ id=self.bodyType, index=#self.system })
 
     if body.core then
-        body.main = {}
-        body.main.path = self.audio.main
-        body.main.loop = love.audio.newSource(self.audio.main, "stream")
+        body.main = self.audio.main
+        -- body.main.path = self.audio.main.path
+        body.main.loop = love.audio.newSource(self.audio.main.path, "stream")
     else
         local _layer = self.audio.layers:next()
         if _layer then
@@ -122,21 +124,30 @@ function SolarSystem:activateBody(body, overrideCore)
     else
         if body.core then
             -- Play loop
-            if not body.main.loop:isPlaying() then
+            if not body.main.active then
                 body.main.loop:setVolume(0.7)    -- dear god make it stop
                 body.main.loop:setLooping(true)
                 love.audio.play(body.main.loop)
 
                 print(body.main.path)
+
+                body.main.active = true
             end
         elseif body.layer then
-            if not body.layer.loop:isPlaying() then
+            if not body.layer.active then
                 body.layer.loop:setVolume(0.7)
                 body.layer.loop:setLooping(true)
-                love.audio.play(body.layer.loop)
 
-                print(body.layer.path)
+                if not (self.beat >= 0.9) then
+                    table.insert(self.queued, body.layer)
+                    print("loop queued")
 
+                else
+                    love.audio.play(body.layer.loop)
+                    print(body.layer.path)
+                end
+
+                body.layer.active = true
             end
         else
             print("No loop")
@@ -172,6 +183,25 @@ function SolarSystem:loadSnapshot(snapshot)
             if not body[j] then body[j] = v end
         end
 
+    end
+end
+
+function SolarSystem:update()
+    local bpm = self.system[1].main.metrics.bpm:gsub("_", "")
+    local beatWidth = 1 / (tonumber(bpm) / 60)
+
+    local songTime = self.system[1].main.loop:tell()
+    self.beat = (songTime / beatWidth) % 1
+
+    if (#self.queued > 0) and (self.beat >= 0.9) then
+        local layer = self.queued[1]
+
+        if not layer.loop:isPlaying() then
+            love.audio.play(layer.loop)
+            print(layer.path)
+        end
+
+        table.remove(self.queued, 1)
     end
 end
 
