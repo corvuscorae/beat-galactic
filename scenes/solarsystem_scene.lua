@@ -287,7 +287,13 @@ function solar:keypressed(key)
     end
 
     if key == "lctrl" or key == "rctrl" then
-        deactivateMode = true;
+        deactivateMode = not deactivateMode;
+
+        if deactivateMode == false then
+            for i,planet in pairs(planets.system) do
+                planet.deactivate = false
+            end
+        end
     end
 
     if key == "c" then
@@ -300,11 +306,7 @@ end
 
 function solar:keyreleased(key)
     if key == "lctrl" or key == "rctrl" then
-        deactivateMode = false;
-
-        for i,planet in pairs(planets.system) do
-            planet.deactivate = false
-        end
+        
     end
 end
 
