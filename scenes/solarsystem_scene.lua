@@ -279,7 +279,7 @@ function solar:keypressed(key)
 end
 
 function solar:keyreleased(key)
-    if key== "lctrl" or key == "rctrl" then
+    if key == "lctrl" or key == "rctrl" then
         deactivateMode = false;
 
         for i,planet in pairs(planets.system) do
@@ -303,7 +303,7 @@ function solar:mousepressed(x, y, button, istouch)
                             print("activating!") 
                             planet.activationTime = love.timer.getTime() -- trigger planet destruction
                         else
-                            planet.deactivate = true;
+                            if deactivateMode then planet.deactivate = true; end
                         end
                     end
                 end
