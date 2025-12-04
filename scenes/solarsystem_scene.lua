@@ -304,12 +304,6 @@ function solar:keypressed(key)
 
 end
 
-function solar:keyreleased(key)
-    if key == "lctrl" or key == "rctrl" then
-        
-    end
-end
-
 -- DEBUG MODE
 function solar:mousepressed(x, y, button, istouch)
     if debugMode then
