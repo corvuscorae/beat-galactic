@@ -13,6 +13,9 @@ local Galaxy = {}
 Galaxy.__index = Galaxy
 setmetatable(Galaxy, {__index = System})
 
+-- debug
+local printMatches = false
+
 function Galaxy:new(world, config, index, minRadius, maxRadius, mask)
     local instance = System:new(world, "galaxy", minRadius, maxRadius, 1000, mask)
     setmetatable(instance, Galaxy)
@@ -91,85 +94,114 @@ function Galaxy:addBody(c)
     table.insert(self.system, body)
 end
 
-function Galaxy:getLayer(type, conf)
+function Galaxy:getLayer(cat, conf)
+    ::tryagain::
     local bpm = conf.bpm
     if not bpm then
-        local bpms = H.getKeys(loops.tags[type])
+        local bpms = H.getKeys(loops.tags[cat])
         bpm = bpms[math.random(#bpms)]
     end
     
-    local key = (type == "drums") and "x" or conf.key
+    local key = (cat == "drums") and "x" or conf.key
     if not key then
-        local keys = H.getKeys(loops.tags[type][bpm])
+        local keys = H.getKeys(loops.tags[cat][bpm])
         key = keys[math.random(#keys)]
     end
 
     local layers = nil
     local layer = nil
-    local path = loops.applepath .. type .. "/" .. bpm:gsub("_", "") .. "/" .. key .. "/"
+    local path = loops.applepath .. cat .. "/" .. bpm:gsub("_", "") .. "/" .. key .. "/"
     local pitch = 1
-    if loops.tags[type][bpm][key] then
-        layers = H.getKeys(loops.tags[type][bpm][key])
+
+    if loops.tags[cat][bpm] and loops.tags[cat][bpm][key] and #loops.tags[cat][bpm][key] > 0 then
+        layers = H.getKeys(loops.tags[cat][bpm][key])
         layer = layers[math.random(#layers)]
         path = path .. layer .. ".mp3"
     else
         print("WARNING! No loops in {" .. path .. "}" )
 
-        local potential_matches = getBPMKeyMatches(bpm:gsub("_", ""), key)
-        local matches = {}
+        if cat == "drums" then 
+            local bpms = H.getKeys(loops.tags[cat])
+            local new_bpm = bpms[math.random(#bpms)]
+            
+            local new_bpm_num = new_bpm:gsub("_","")
+            new_bpm_num = tonumber(new_bpm_num)
+            local bpm_num = bpm:gsub("_","")
+            bpm_num = tonumber(bpm_num)
 
-        print("***" .. type .. " matches for " .. bpm .. " in " .. key .. ":\n")
-        print(string.format("%-8s %-12s %-8s %-12s", "shift", "bpm", "key", "pitch ratio"))
-        print(string.rep("-", 45))
-        
-        for _, match in ipairs(potential_matches) do
-            local shift = string.format("%+d", match.semitoneShift)
+            local ratio = new_bpm_num / bpm_num
 
-            local match_bpm = "_" .. match.bpm
+            print("no " .. bpm .. " drums, getting " .. new_bpm .. "...")
+            layers = H.getKeys(loops.tags[cat][new_bpm][key])
+            layer = layers[math.random(#layers)]
+            path = loops.applepath .. cat .. "/" .. new_bpm:gsub("_", "") .. "/" .. key .. "/" .. layer .. ".mp3"
+            pitch = ratio
+        else
+            local potential_matches = getBPMKeyMatches(bpm:gsub("_", ""), key)
+            local matches = {}
 
-            local bpms = H.getKeys(loops.tags[type])
-            local keys = H.getKeys(loops.tags[type][match_bpm])
+            if printMatches then
+                print("***" .. cat .. " matches for " .. bpm .. " in " .. key .. ":\n")
+                print(string.format("%-8s %-12s %-8s %-12s", "shift", "bpm", "key", "pitch ratio"))
+                print(string.rep("-", 45))
+            end
+            
+            for _, match in ipairs(potential_matches) do
+                local shift = string.format("%+d", match.semitoneShift)
 
-            if not keys then goto continue end
+                local match_bpm = "_" .. match.bpm
 
-            if  H.tableHas(bpms, match_bpm) then 
-                local match_key = ""
-                if H.tableHas(keys,match.key[1]) then
-                    match_key = match_key .. match.key[1]
+                local bpms = H.getKeys(loops.tags[cat])
+                local keys = H.getKeys(loops.tags[cat][match_bpm])
+
+                if not keys then goto continue end
+
+                if  H.tableHas(bpms, match_bpm) then 
+                    local match_key = ""
+                    if H.tableHas(keys,match.key[1]) then
+                        match_key = match_key .. match.key[1]
+                    end
+                    if H.tableHas(keys,match.key[2]) then
+                        local comma = (#match_key > 0) and ", " or ""
+                        match_key = match_key .. comma .. match.key[2]
+                    end
+
+                    if #match_key > 0 then 
+                        local mStr = string.format("%-8s %-12d %-8s %.3f", shift, match.bpm, match_key, match.ratio)
+                        -- print(mStr)
+
+                        -- add a match for each key k
+                        local m_keys = {}
+                        for k in match_key:gmatch("[^,%s]+") do
+                            match.key = k
+                            table.insert(matches, match)
+                        end
+                    end
+
                 end
-                if H.tableHas(keys,match.key[2]) then
-                    match_key = match_key .. #match_key > 0 and ", " or "" .. match.key[2]
-                end
 
-                if #match_key > 0 then 
-                    local mStr = string.format("%-8s %-12d %-8s %.3f", shift, match.bpm, match_key, match.ratio)
-                    print(mStr)
+                ::continue::
 
-                    -- add a match for each key k
-                    local m_keys = {}
-                    for k in match_key:gmatch("[^,%s]+") do
-                        match.key = k
-                        table.insert(matches, match)
+                if printMatches then 
+                    if type(match.key) == "table" then
+                        print(string.format("%-8s %-12d %-8s %.3f", shift, match.bpm, match.key[1] .. ", " .. match.key[2], match.ratio) .. " *missing")
+                    end
+                    if type(match.key) == "string" then
+                        print(string.format("%-8s %-12d %-8s %.3f", shift, match.bpm, match.key, match.ratio) .. " *missing")
                     end
                 end
-
             end
+            if #matches == 0 then goto tryagain
+            else 
+                local pick = matches[math.random(#matches)]
+                print("PICK = ", pick.bpm, pick.key)
 
-            ::continue::
+                layers = H.getKeys(loops.tags[cat]["_" .. pick.bpm][pick.key])
+                layer = layers[math.random(#layers)]
 
-            -- print(string.format("%-8s %-12d %-8s %.3f", shift, match.bpm, match.key[1] .. ", " .. match.key[2], match.ratio) .. " *missing")
-        end
-   
-        if #matches == 0 then path = nil
-        else 
-            local pick = matches[math.random(#matches)]
-            print("PICK = ", pick.bpm, pick.key)
-
-            layers = H.getKeys(loops.tags[type]["_" .. pick.bpm][pick.key])
-            layer = layers[math.random(#layers)]
-
-            path = loops.applepath .. type .. "/" .. pick.bpm .. "/" .. pick.key .. "/" .. layer .. ".mp3"
-            pitch = pick.dir == "up" and pick.ratio or pick.ratio * 2
+                path = loops.applepath .. cat .. "/" .. pick.bpm .. "/" .. pick.key .. "/" .. layer .. ".mp3"
+                pitch = pick.dir == "up" and pick.ratio or pick.ratio * 2
+            end
         end
     end
 

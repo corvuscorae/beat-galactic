@@ -1,6 +1,8 @@
 local H = require("utils.helpers")
 local song_root = "assets/songs/"
 
+local _tags = require("assets.songs.tagged")
+
 local i = {}
 
 -- formats file names to be usable keys in a lua object
@@ -10,7 +12,8 @@ local function formatName(filename, ext)
     local result = noExt:gsub("[^%w]", "_")
 
     result = result:gsub("looperman_l", "")
-    -- result = result:gsub("%d", "")
+    local num_pattern = string.rep("%d", 7)
+    result = result:gsub(num_pattern, "")
 
     -- cleanup
     result = result:gsub("_+", "_") -- consecutive underscores
@@ -31,27 +34,31 @@ function i.initFiles(path, subfolders, ext, log)
         layers = {}
     }
 
-    local d = ""
+    local d = "return {\n"
+    local tagged = _tags
 
-    for _,sub in ipairs(subfolders) do     -- types (i.e. "drums", "padding", etc)
+    for _,type in ipairs(subfolders) do     -- types (i.e. "drums", "padding", etc)
         -- get bpm subfolders
-        local bpm = love.filesystem.getDirectoryItems(path .. sub .. "/")
+        local bpms = love.filesystem.getDirectoryItems(path .. type .. "/")
 
-        if log then d = d .. sub .. " = {\n" end    
+        d = d .. type .. " = {\n"    
+        if not tagged[type] then tagged[type] = {} end
 
-        for _, b in ipairs(bpm) do      -- bpm values in type subfolder
-            local keys = love.filesystem.getDirectoryItems(path .. sub .. "/" .. b .. "/")
+        for _, b in ipairs(bpms) do      -- bpm values in type subfolder
+            local keys = love.filesystem.getDirectoryItems(path .. type .. "/" .. b .. "/")
 
             H.printKeys(keys)
 
-            if log then d = d .. "_" .. b .. " = {\n" end
+            d = d .. "_" .. b .. " = {\n"
+            if not tagged[type]["_" .. b] then tagged[type]["_" .. b] = {} end
 
             for _, k in ipairs(keys) do      -- key values in bpm subfolder
                 -- get song files
-                local fullpath = path .. sub .. "/" .. b .. "/" .. k .. "/" -- path to the songs in type/bpm/key subfolders
+                local fullpath = path .. type .. "/" .. b .. "/" .. k .. "/" -- path to the songs in type/bpm/key subfolders
                 local songs = love.filesystem.getDirectoryItems(fullpath)
 
-                if log then d = d .. k .. " = {\n" end
+                d = d .. k .. " = {\n" 
+                if not tagged[type]["_" .. b][k] then tagged[type]["_" .. b][k] = {} end
 
                 for _,song in ipairs(songs) do
                     local info = love.filesystem.getInfo(fullpath .. song)
@@ -59,39 +66,71 @@ function i.initFiles(path, subfolders, ext, log)
                     if info and info.type == "file" then
                         local format = formatName(song, ext)
                         
-                        local dest = (sub == "main") and "mains" or "layers"
+                        local dest = (type == "main") and "mains" or "layers"
                         table.insert(paths[dest], fullpath .. format)
+
+                        local _,__,param = nil, nil, nil
 
                         if #format > 0 then
                             -- remove spaces and rename file
                             -- https://www.gammon.com.au/scripts/doc.php?lua=os.rename
                             os.rename(fullpath .. song, fullpath .. format)
 
-                            local _,__,param = format:find("(.+)%" .. ext .. "$")
-                            if log then 
-                                d = d .. param .. " = { \nsource = {\n"
-                                d = d .. "link = \"\",\n"
-                                d = d .. "name = \"\",\n"
-                                d = d .. "attr = \"\",\n"
-                                d = d.. "},  \n}," 
-                            end
+                            _,__,param = format:find("(.+)%" .. ext .. "$")
+
+                            local info = tagged[type]["_"..b][k][param]
+                            local source = {link = "", name = "", attr = ""}
+                            if info and info.source then
+                                source.link = info.source.link or ""
+                                source.name = info.source.name or ""
+                                source.attr = info.source.attr or ""
+                            end 
+
+                            d = d .. param .. " = { \nsource = {\n"
+                            d = d .. "link = \"" .. source.link .. "\",\n"
+                            d = d .. "name = \"" .. source.name .. "\",\n"
+                            d = d .. "attr = \"" .. source.attr .. "\",\n"
+                            d = d.. "},  \n}," 
                         else
-                            local _,__,param = format:find("(.+)%" .. ext .. "$")
-                            if log then d = d .. param .. " = {\n}," end
+                            _,__,param = format:find("(.+)%" .. ext .. "$")
+                            d = d .. param .. " = {\n},"
+                        end
+
+                        if not tagged[type]["_"..b][k][param] then
+                            tagged[type]["_"..b][k][param] = {
+                                source = {
+                                    link = "",
+                                    name = "",
+                                    attr = "",
+                                },
+                            }
                         end
                     end
                 end
 
-                if log then d = d .."\n}," end
-
+                d = d .."\n},"
             end
     
-            if log then d = d .. "\n}," end
-
+            d = d .. "\n},"
         end
 
-        if log then d = d .. "\n}," end
+        d = d .. "\n},"
+    end
 
+    d = d .. "\n}"
+    love.filesystem.createDirectory(song_root)
+    local s, m = love.filesystem.write("tagged.lua", d)
+    if s then
+        print("written to:", love.filesystem.getSaveDirectory():gsub("/", "\\"))
+    else
+        print(m)
+    end
+
+    local wPath = love.filesystem.getSource() .. "/" .. song_root
+    file = io.open(wPath .. "/" .. "tagged.lua", "w")
+    if file then
+        file:write(d)
+        file:close()
     end
 
     if log then 
