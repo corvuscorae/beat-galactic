@@ -47,6 +47,20 @@ function gal:draw()
             galaxy:activateBody(planet)
         end
     end
+
+    love.graphics.push()
+
+    local ins = "> click any solar system to enter\n> press R to regenerate"
+    local font = love.graphics.getFont()
+    local textW = font:getWidth(ins)
+    local textH = font:getHeight(ins) * 4
+
+    love.graphics.setColor({0,0,0, 0.2})
+    love.graphics.rectangle("fill", width - textW - 10, height - textH - 20, textW + 10, textH + 20)
+    love.graphics.setColor({1,1,1})
+    love.graphics.print(ins, width - textW - 10, height - textH - 10)
+
+    love.graphics.pop()
 end
 
 function gal:update(dt)
