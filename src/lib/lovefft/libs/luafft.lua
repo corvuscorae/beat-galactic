@@ -23,7 +23,7 @@ THE SOFTWARE.
 
 ]]
 
-local complex = require "lib.lovefft.libs.complex"
+local complex = require "src.lib.lovefft.libs.complex"
 local scratchbuf
 
 ---------------------------------------------------------------

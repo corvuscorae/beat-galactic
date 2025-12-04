@@ -1,6 +1,6 @@
 local tags = require("assets.songs._tags").tags
-local ShuffleBag = require("classes.shufflebag")
-local H = require("utils.helpers")
+local ShuffleBag = require("src.classes.shufflebag")
+local H = require("src.utils.helpers")
 
 local function getParams(category)
     local params = {}

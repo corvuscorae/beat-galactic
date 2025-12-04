@@ -3,7 +3,7 @@ local args = {...}
 local fftSize = args[1]
 local channelID = args[2] or ""
 
-local fft = require("lib.lovefft.libs.luafft")
+local fft = require("src.lib.lovefft.libs.luafft")
 local inChannel = love.thread.getChannel("toFFT_" .. channelID)
 local outChannel = love.thread.getChannel("fft_" .. channelID)
 local stopChannel = love.thread.getChannel("stop_" .. channelID)

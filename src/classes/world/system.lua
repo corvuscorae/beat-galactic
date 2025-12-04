@@ -1,4 +1,4 @@
-local Settings = require("utils.settings") 
+local Settings = require("src.utils.settings") 
 local width, height = Settings.width, Settings.height
 
 -- CLASS ---

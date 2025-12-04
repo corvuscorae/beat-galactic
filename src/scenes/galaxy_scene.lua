@@ -1,11 +1,11 @@
-local H = require("utils.helpers")
-local Settings = require("utils.settings")
+local H = require("src.utils.helpers")
+local Settings = require("src.utils.settings")
 local width, height = Settings.width, Settings.height
 
-local Ship = require("classes.ship")
+local Ship = require("src.classes.ship")
 
 local gal = {}
-local Galaxy = require("classes.world.galaxy")
+local Galaxy = require("src.classes.world.galaxy")
 
 function gal:load(args)
     if args and args.index and args.snapshot then 

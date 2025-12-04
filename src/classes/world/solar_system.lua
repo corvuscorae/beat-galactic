@@ -1,11 +1,11 @@
-local System = require("classes.world.system")
-local Body = require("classes.world.body")
-local Settings = require("utils.settings") 
+local System = require("src.classes.world.system")
+local Body = require("src.classes.world.body")
+local Settings = require("src.utils.settings") 
 local width, height = Settings.width, Settings.height
-local H = require("utils.helpers")
+local H = require("src.utils.helpers")
 
 --------------------------------------------------
-local ShuffleBag = require("classes.shufflebag")
+local ShuffleBag = require("src.classes.shufflebag")
 local colors = {
     {1, 0.5, 0.4},  -- pink
     {1, 0.7, 0.4},  -- light orange

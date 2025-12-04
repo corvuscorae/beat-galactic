@@ -1,7 +1,7 @@
 local tags = require("assets.songs.tagged")
-local SolarSystem = require("classes.world.solar_system")
-local H = require("utils.helpers")
-local Settings = require("utils.settings") 
+local SolarSystem = require("src.classes.world.solar_system")
+local H = require("src.utils.helpers")
+local Settings = require("src.utils.settings") 
 local solar = {}
 local debugMode = false
 

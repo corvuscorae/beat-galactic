@@ -1,4 +1,4 @@
-local H = require("utils.helpers")
+local H = require("src.utils.helpers")
 local song_root = "assets/songs/"
 
 local _tags = require("assets.songs.tagged")

@@ -1,4 +1,4 @@
-local Solar = require("classes.world.solar_system")
+local Solar = require("src.classes.world.solar_system")
 local Ship = {}
 Ship.__index = Ship
 

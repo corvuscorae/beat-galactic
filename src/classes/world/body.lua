@@ -1,6 +1,6 @@
-local loveFFT = require("lib.lovefft.lovefft")
+local loveFFT = require("src.lib.lovefft.lovefft")
 local tags = require("assets.songs.tagged")
-local H = require("utils.helpers")
+local H = require("src.utils.helpers")
 local Body = {}
 Body.__index = Body
 

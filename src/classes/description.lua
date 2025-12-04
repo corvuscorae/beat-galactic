@@ -1,5 +1,5 @@
-local bases = require("grammars.bases")
-local fillers = require("grammars.fillers")
+local bases = require("src.grammars.bases")
+local fillers = require("src.grammars.fillers")
 
 -- CLASS ---
 local Description = {}

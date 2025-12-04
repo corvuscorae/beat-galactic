@@ -22,7 +22,7 @@ function loveFFT:init(fftSize) -- The number of samples used to calculate FFT, m
     for i = 1, fftSize/2 do fftArray[i] = 0 end
     self.fftSize = fftSize
     self.fftArray = fftArray
-    self.threadFFT = love.thread.newThread("lib/lovefft/ffthread.lua")
+    self.threadFFT = love.thread.newThread("src/lib/lovefft/ffthread.lua")
     self.threadFFT:start(fftSize, self.channelID)
     self.channelFFT = love.thread.getChannel("fft_" .. self.channelID)
     self.channelToFFT = love.thread.getChannel("toFFT_" .. self.channelID)
