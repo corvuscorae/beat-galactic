@@ -936,6 +936,34 @@ attr = "hbsamples",
 },  
 },
 },
+},_108 = {
+Eb = {
+chords_008_keyboard = { 
+source = {
+link = "https://www.looperman.com/loops/detail/342429/chords-008-keyboard-free-108bpm-lo-fi-organ-loop",
+name = "Chords 008 - Keyboard",
+attr = "MAOFacile",
+},  
+},keeping_on = { 
+source = {
+link = "https://www.looperman.com/loops/detail/239216/keeping-on-108bpm-ambient-arpeggio-loop",
+name = "Keeping on",
+attr = "xvolvex",
+},  
+},piano_melody_718_abelouis = { 
+source = {
+link = "https://www.looperman.com/loops/detail/188819/piano-melody-718-abelouis-108bpm-classical-piano-loop",
+name = "Piano Melody 718 abelouis",
+attr = "abelouis",
+},  
+},soul_girls_56 = { 
+source = {
+link = "https://www.looperman.com/loops/detail/302190/soul-girls-56-free-108bpm-rnb-vocal-loop",
+name = "Soul Girls 56",
+attr = "Rasputin",
+},  
+},
+},
 },_110 = {
 Eb = {
 life_in_the_astral_city_pad = { 
@@ -1077,6 +1105,30 @@ source = {
 link = "https://www.looperman.com/loops/detail/97689/jammy-sax-loop-by-danke-free-68bpm-chill-out-brass-loop",
 name = "Jammy sax loop",
 attr = "Danke",
+},  
+},rhythmic_synth_brass = { 
+source = {
+link = "https://www.looperman.com/loops/detail/305936/rhythmic-synth-brass-free-68bpm-ambient-synth-loop",
+name = "Rhythmic Synth Brass",
+attr = "EZGoing",
+},  
+},rnb_rhodes_2 = { 
+source = {
+link = "https://www.looperman.com/loops/detail/345523/rnb-rhodes-2-free-68bpm-rnb-rhodes-piano-loop",
+name = "RnB Rhodes 2",
+attr = "flask",
+},  
+},trippy_sinewave_arp = { 
+source = {
+link = "https://www.looperman.com/loops/detail/305934/trippy-sinewave-arp-free-68bpm-chill-out-arpeggio-loop",
+name = "Trippy Sinewave Arp",
+attr = "EZGoing",
+},  
+},your_super_phat_phender = { 
+source = {
+link = "https://www.looperman.com/loops/detail/149617/your-super-phat-phender-68bpm-soul-rhodes-piano-loop",
+name = "Your Super Phat Phender",
+attr = "Rasputin",
 },  
 },
 },
@@ -1229,6 +1281,34 @@ source = {
 link = "https://www.looperman.com/loops/detail/362621/distorted-bassline-4-free-104bpm-electronic-bass-guitar-loop",
 name = "Distorted Bassline 4",
 attr = "prodBryson",
+},  
+},
+},
+},_108 = {
+Eb = {
+afrobeat_piano_vocal_loop_ghana = { 
+source = {
+link = "https://www.looperman.com/loops/detail/319652/afrobeat-piano-vocal-loop-ghana-free-108bpm-afrobeat-piano-loop",
+name = "Afrobeat Piano Vocal Loop - Ghana",
+attr = "bulloproducer1",
+},  
+},faded_wtf_loop_x_bass_synth = { 
+source = {
+link = "https://www.looperman.com/loops/detail/304012/faded-wtf-loop-x-bass-synth-free-108bpm-rap-bass-synth-loop",
+name = "Faded WTF Loop x Bass Synth",
+attr = "illfadedproductions",
+},  
+},footsteps_joji_x_frank_ocean_x_lofi_piano_v2 = { 
+source = {
+link = "https://www.looperman.com/loops/detail/335068/footsteps-joji-x-frank-ocean-x-lofi-piano-v2-free-108bpm-lo-fi-piano-loop",
+name = "Footsteps - Joji x Frank Ocean x lofi - Piano - V2",
+attr = "RayzCooks",
+},  
+},sushilbawa_guitar_108 = { 
+source = {
+link = "https://www.looperman.com/loops/detail/126571/guitar-108-by-sushilbawa-free-108bpm-trap-acoustic-guitar-loop",
+name = "GUITAR 108",
+attr = "sushilbawa",
 },  
 },
 },
@@ -1401,6 +1481,22 @@ source = {
 link = "https://www.looperman.com/loops/detail/303782/dnb-style-bass-2-free-170bpm-drum-and-bass-bass-synth-loop",
 name = "DNB Style Bass 2",
 attr = "Sloppy0",
+},  
+},
+},
+},_68 = {
+G = {
+rvsesonmygrave_in_the_trap = { 
+source = {
+link = "https://www.looperman.com/loops/detail/118549/in-the-trap-by-rvsesonmygrave-free-68bpm-trap-synth-loop",
+name = "in the trap",
+attr = "prodbyroses",
+},  
+},shinny_bells = { 
+source = {
+link = "https://www.looperman.com/loops/detail/305935/shinny-bells-free-68bpm-chill-out-bells-loop",
+name = "Shinny Bells",
+attr = "EZGoing",
 },  
 },
 },
