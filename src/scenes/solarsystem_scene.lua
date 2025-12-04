@@ -16,8 +16,6 @@ function solar:load(args)
 
     systemDat = args.planets  
     
-    math.randomseed(systemDat.config.seed)
-
     width = Settings.width
     height = Settings.height
 
