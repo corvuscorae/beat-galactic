@@ -52,24 +52,15 @@ end
 function gal:update(dt)
 end
 
--- LEGACY --
--- function gal:keypressed(key)
---     if(tonumber(key)) then
---         sys_select = H.clamp(tonumber(key), 1, #galaxy.solarSystems)
---     end
-
---     if key == "return" then
---         gal.setScene(
---             "solsys",  
---             {   
---                 ship = ship, 
---                 planets = galaxy.solarSystems[sys_select], 
---                 index = sys_select,
---                 world = world
---             }
---         )
---     end
--- end
+function gal:keypressed(key)
+    if key == "r" then
+        world = nil
+        ship = nil
+        galaxy = nil
+        sys_select = nil
+        gal.setScene("galaxy")
+    end
+end
 
 function gal:mousepressed(x, y, button, istouch)
     if button == 1 then -- left mouse button
