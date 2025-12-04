@@ -718,6 +718,22 @@ attr = "Sp3cul8",
 },  
 },
 },
+},_142 = {
+C = {
+berry = { 
+source = {
+link = "https://www.looperman.com/loops/detail/339241/berry-free-142bpm-trap-synth-loop",
+name = "berry",
+attr = "0NOX0",
+},  
+},ethnic_1_latin_brass_loop = { 
+source = {
+link = "https://www.looperman.com/loops/detail/386306/ethnic-1-latin-brass-loop-free-142bpm-ethnic-brass-loop",
+name = "Ethnic 1 - Latin Brass Loop",
+attr = "DavidCicaloMuse",
+},  
+},
+},
 },_169 = {
 D = {
 playa = { 
@@ -1043,8 +1059,24 @@ C = {
 drake_x_central_cee_type_loop_by_landsharkszn = { 
 source = {
 link = "https://www.looperman.com/loops/detail/404105/drake-x-central-cee-type-loop-by-landsharkszn-free-140bpm-uk-drill-vocal-loop",
-name = "Drake X Central Cee Type Loop By Landsharkszn ",
+name = "Drake X Central Cee Type LoopLandsharkszn ",
 attr = "landsharkszn",
+},  
+},
+},
+},_142 = {
+C = {
+mellow_vibes_soul_organ = { 
+source = {
+link = "",
+name = "",
+attr = "",
+},  
+},ny_sweepers_drill_drums_32_calebproducedit = { 
+source = {
+link = "https://www.looperman.com/loops/detail/348804/ny-sweepers-drill-drums-32-calebproducedit-free-142bpm-uk-drill-drum-loop",
+name = "NY Sweepers Drill Drums 32 - CalebProducedIt",
+attr = "CalebProducedIt",
 },  
 },
 },
@@ -1139,6 +1171,18 @@ source = {
 link = "https://www.looperman.com/loops/detail/143825/dreamscape-71bpm-hip-hop-electric-guitar-loop",
 name = "DREAMSCAPE",
 attr = "MaxSurrance",
+},  
+},mellow_vibes_soul_organ = { 
+source = {
+link = "https://www.looperman.com/loops/detail/164084/mellow-vibes-soul-organ-71bpm-rnb-organ-loop",
+name = "Mellow Vibes Soul Organ",
+attr = "Rasputin",
+},  
+},phat_tremolo_ep = { 
+source = {
+link = "https://www.looperman.com/loops/detail/309177/phat-tremolo-ep-free-71bpm-soul-rhodes-piano-loop",
+name = "Phat Tremolo EP",
+attr = "Rasputin",
 },  
 },
 },
@@ -1433,6 +1477,46 @@ source = {
 link = "https://www.looperman.com/loops/detail/411054/9-unison-bass-free-140bpm-trap-bass-synth-loop",
 name = "9 unison bass",
 attr = "RedGame64",
+},  
+},
+},
+},_142 = {
+C = {
+banyena_psytrance_bassline = { 
+source = {
+link = "https://www.looperman.com/loops/detail/380942/banyena-psytrance-bassline-free-142bpm-trance-bass-synth-loop",
+name = "Banyena Psytrance Bassline",
+attr = "Sp3cul8",
+},  
+},freddie_dredd_x_phonk_type_loop_graveyard = { 
+source = {
+link = "https://www.looperman.com/loops/detail/334414/freddie-dredd-x-phonk-type-loop-graveyard-free-142bpm-phonk-bells-loop",
+name = "Freddie Dredd x Phonk Type Loop - Graveyard",
+attr = "prod9nine9",
+},  
+},lil_tecca_marimba_type_summer = { 
+source = {
+link = "https://www.looperman.com/loops/detail/365738/lil-tecca-marimba-type-summer-free-142bpm-hip-hop-bells-loop",
+name = "Lil Tecca Marimba Type - Summer",
+attr = "wyajack",
+},  
+},lvlup_ogrb = { 
+source = {
+link = "https://www.looperman.com/loops/detail/404990/lvlup-ogrb-free-142bpm-trap-synth-loop",
+name = "lvlup - ogrb",
+attr = "ogrb",
+},  
+},sadness_emotional_piano = { 
+source = {
+link = "https://www.looperman.com/loops/detail/377781/sadness-emotional-piano-free-142bpm-rnb-rhodes-piano-loop",
+name = "Sadness-Emotional piano",
+attr = "MarceloCaliqui",
+},  
+},squelchy_layer = { 
+source = {
+link = "https://www.looperman.com/loops/detail/343841/squelchy-layer-free-142bpm-techno-synth-loop",
+name = "Squelchy Layer",
+attr = "Sp3cul8",
 },  
 },
 },

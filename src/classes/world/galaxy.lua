@@ -115,10 +115,8 @@ function Galaxy:getLayer(cat, conf)
         -- for _,b in pairs(cats) do
             if tags[cat][bpm] then
                 bag = tags[cat][bpm]
-                print("got bag")
                 goto gotbag
             end
-            print(b, bpm)
         -- end
 
         if not bag then
@@ -128,7 +126,6 @@ function Galaxy:getLayer(cat, conf)
         ::gotbag::
         local keys = H.getKeys(bag)
         key = keys[math.random(#keys)]
-        print(key, bpm)
     end
 
     local layers = nil
