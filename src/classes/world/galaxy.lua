@@ -8,6 +8,7 @@ local H = require("src.utils.helpers")
 local ShuffleBag = require("src.classes.shufflebag")
 local loops = require("assets.songs._tags")
 local _layers = ShuffleBag.new(loops.paths.layers)
+local tags = require("assets.songs.tagged")
 
 local Galaxy = {}
 Galaxy.__index = Galaxy
@@ -44,9 +45,9 @@ function Galaxy:populate(config, world)
     local num = config.systems
 
     for i = 1, num do
-        local main = self:getLayer("main", {getMetrics = true})
+        local main = self:getLayer("drums", {getMetrics = true})
         local layers = self:getLayers(
-            {"drums", "texture", "padding", "padding", "texture"}, 
+            {"main", "texture", "padding", "padding", "texture"}, 
             main.metrics
         )
 
@@ -98,14 +99,36 @@ function Galaxy:getLayer(cat, conf)
     ::tryagain::
     local bpm = conf.bpm
     if not bpm then
-        local bpms = H.getKeys(loops.tags[cat])
+        local bpms = H.getKeys(tags[cat])
         bpm = bpms[math.random(#bpms)]
     end
     
     local key = (cat == "drums") and "x" or conf.key
     if not key then
-        local keys = H.getKeys(loops.tags[cat][bpm])
+        local keys = H.getKeys(tags[cat][bpm])
         key = keys[math.random(#keys)]
+    end
+
+    if key == "x" then  -- randomly assign a key for keyless tracks
+        -- no key, pick something random
+        local bag = nil
+        -- for _,b in pairs(cats) do
+            if tags[cat][bpm] then
+                bag = tags[cat][bpm]
+                print("got bag")
+                goto gotbag
+            end
+            print(b, bpm)
+        -- end
+
+        if not bag then
+            error("No BPM matches for " .. bpm .. " in " .. cat)
+        end
+
+        ::gotbag::
+        local keys = H.getKeys(bag)
+        key = keys[math.random(#keys)]
+        print(key, bpm)
     end
 
     local layers = nil
@@ -113,15 +136,15 @@ function Galaxy:getLayer(cat, conf)
     local path = loops.applepath .. cat .. "/" .. bpm:gsub("_", "") .. "/" .. key .. "/"
     local pitch = 1
 
-    if loops.tags[cat][bpm] and loops.tags[cat][bpm][key] and #loops.tags[cat][bpm][key] > 0 then
-        layers = H.getKeys(loops.tags[cat][bpm][key])
+    if tags[cat][bpm] and tags[cat][bpm][key] and #H.getKeys(tags[cat][bpm][key]) > 0 then
+        layers = H.getKeys(tags[cat][bpm][key])
         layer = layers[math.random(#layers)]
         path = path .. layer .. ".mp3"
     else
         print("WARNING! No loops in {" .. path .. "}" )
 
         if cat == "drums" then 
-            local bpms = H.getKeys(loops.tags[cat])
+            local bpms = H.getKeys(tags[cat])
             local new_bpm = bpms[math.random(#bpms)]
             
             local new_bpm_num = new_bpm:gsub("_","")
@@ -129,10 +152,10 @@ function Galaxy:getLayer(cat, conf)
             local bpm_num = bpm:gsub("_","")
             bpm_num = tonumber(bpm_num)
 
-            local ratio = new_bpm_num / bpm_num
+            local ratio = bpm_num / new_bpm_num
 
             print("no " .. bpm .. " drums, getting " .. new_bpm .. "...")
-            layers = H.getKeys(loops.tags[cat][new_bpm][key])
+            layers = H.getKeys(tags[cat][new_bpm][key])
             layer = layers[math.random(#layers)]
             path = loops.applepath .. cat .. "/" .. new_bpm:gsub("_", "") .. "/" .. key .. "/" .. layer .. ".mp3"
             pitch = ratio
@@ -151,8 +174,8 @@ function Galaxy:getLayer(cat, conf)
 
                 local match_bpm = "_" .. match.bpm
 
-                local bpms = H.getKeys(loops.tags[cat])
-                local keys = H.getKeys(loops.tags[cat][match_bpm])
+                local bpms = H.getKeys(tags[cat])
+                local keys = H.getKeys(tags[cat][match_bpm])
 
                 if not keys then goto continue end
 
@@ -196,7 +219,7 @@ function Galaxy:getLayer(cat, conf)
                 local pick = matches[math.random(#matches)]
                 print("PICK = ", pick.bpm, pick.key)
 
-                layers = H.getKeys(loops.tags[cat]["_" .. pick.bpm][pick.key])
+                layers = H.getKeys(tags[cat]["_" .. pick.bpm][pick.key])
                 layer = layers[math.random(#layers)]
 
                 path = loops.applepath .. cat .. "/" .. pick.bpm .. "/" .. pick.key .. "/" .. layer .. ".mp3"
@@ -258,6 +281,28 @@ function getBPMKeyMatches(bpm, key)
         { "Bb"  , "Gm"  },
         { "B"   , "Abm" },
     }
+
+    if key == "x" then
+        -- no key, pick something random
+        local cats = {"main", "padding", "texture"}
+        local bag = nil
+        for _,b in pairs(cats) do
+            if tags[b]["_"..bpm] then
+                bag = tags[b]["_"..bpm]
+                goto gotbag
+            end
+            print(b, bpm)
+        end
+
+        if not bag then
+            error("No BPM matches for " .. bpm)
+        end
+
+        ::gotbag::
+        local keys = H.getKeys(bag)
+        key = keys[math.random(#keys)]
+        print(key)
+    end
 
     local origSemitone = noteToSemitone[key]
     local matches = {}
