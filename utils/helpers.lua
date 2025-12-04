@@ -66,4 +66,12 @@ function H.printKeys(t)
     return key_str
 end
 
+function H.splitString(str, delim)
+    local result = {}
+    for match in str:gmatch("([^" .. delim .. "]+)") do
+        table.insert(result, match)
+    end
+    return result
+end
+
 return H

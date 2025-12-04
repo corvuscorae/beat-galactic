@@ -1,5 +1,6 @@
+local tags = require("assets.songs.tagged")
 local SolarSystem = require("classes.world.solar_system")
-
+local H = require("utils.helpers")
 local Settings = require("utils.settings") 
 local solar = {}
 local debugMode = false
@@ -45,6 +46,13 @@ function solar:load(args)
     activatedPlanets = 0
 
     deactivateMode = false
+
+    credits = {
+        string = "",
+        instruct = "",
+        link = "",
+        color = {0,0,0},
+    }
 
     -- Graphics setup
     --love.window.setMode(width, height)
@@ -212,6 +220,11 @@ function solar:draw()
 
     planets:update()
 
+    -- credits
+    love.graphics.push()
+    love.graphics.setColor(credits.color)
+    love.graphics.printf(credits.string .. credits.instruct, 10, Settings.height - 50, Settings.width - 10)
+    love.graphics.pop()
 end
 
 function beginContact(a, b, coll)
@@ -273,9 +286,16 @@ function solar:keypressed(key)
         debugMode = not debugMode
     end
 
-    if key== "lctrl" or key == "rctrl" then
+    if key == "lctrl" or key == "rctrl" then
         deactivateMode = true;
     end
+
+    if key == "c" then
+        love.system.setClipboardText(credits.link)
+
+        credits.instruct = "copied!"
+    end
+
 end
 
 function solar:keyreleased(key)
@@ -292,24 +312,49 @@ end
 function solar:mousepressed(x, y, button, istouch)
     if debugMode then
         if button == 1 then -- left mouse button
-            -- check if one of the systems are clicked
-            for i,planet in pairs(planets.system) do
-                local sysX, sysY = planet.body:getPosition()
-                local r = planet.radius
+            local clicked_planet = self:getPlanet(x, y)
 
-                if x <= sysX + r and x >= sysX - r and y <= sysY + r and y >= sysY - r then
-                    if planets.system[1].alive or i == 1 then
-                        if not planet.activationTime then 
-                            print("activating!") 
-                            planet.activationTime = love.timer.getTime() -- trigger planet destruction
-                        else
-                            if deactivateMode then planet.deactivate = true; end
-                        end
-                    end
+            if clicked_planet and (planets.system[1].alive or clicked_planet.core) then
+                if not clicked_planet.activationTime then 
+                    print("activating!") 
+                    clicked_planet.activationTime = love.timer.getTime() -- trigger planet destruction
+                else
+                    if deactivateMode then clicked_planet.deactivate = true; end
                 end
-
             end
         end
+    end
+
+    if button == 2 then
+        local clicked_planet = self:getPlanet(x, y)
+        
+        if clicked_planet and clicked_planet.alive then
+            local info = H.splitString(clicked_planet.soundData, "/")
+            local type = info[3]
+            local bpm = "_" .. info[4]
+            local key = info[5]
+            local loop = info[6]:gsub(".mp3", "")
+
+            local source = tags[type][bpm][key][loop].source
+
+            credits.string = source.name .. " by " .. source.attr .. "\n"
+            credits.instruct = "(press C to copy link to clipboard)"
+            credits.link = source.link
+            credits.color = clicked_planet.color
+            print(credits.string)
+        end
+    end
+end
+
+function solar:getPlanet(x, y)
+    for i,planet in pairs(planets.system) do
+        local sysX, sysY = planet.body:getPosition()
+        local r = planet.radius
+
+        if x <= sysX + r and x >= sysX - r and y <= sysY + r and y >= sysY - r then
+            return planet
+        end
+
     end
 end
 
